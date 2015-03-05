@@ -27,7 +27,8 @@
 *.out
 *.app
 
-.DS_Store
+# OS X Stuff
+*.DS_Store
 .AppleDouble
 .LSOverride
 
