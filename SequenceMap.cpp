@@ -1,9 +1,25 @@
 
 #include "SequenceMap.h"
 
+SequenceMap::SequenceMap(string seq, string acronym):sequence(seq) {
+    enzyme_acronyms.insert(acronym);
+}
+
 string SequenceMap::get_sequence() const { return sequence; }
 
-void SequenceMap::merge(SequenceMap other){
+set<string> SequenceMap::get_acronyms() const {return enzyme_acronyms; }
+
+void SequenceMap::merge(SequenceMap &other){
+    
+    // Check if sequences of both sequences are the same
+    if (other.get_sequence() != sequence) {
+        throw logic_error(other.get_sequence());
+    }
+    
+    // Merge: Add other's acronyms to sequence map
+    for (auto s: other.get_acronyms()){
+        enzyme_acronyms.insert(s);
+    }
     
 }
 
