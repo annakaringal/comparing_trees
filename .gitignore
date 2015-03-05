@@ -28,7 +28,7 @@
 *.app
 
 # OS X Stuff
-*.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
 

@@ -17,41 +17,50 @@
 #include <string>
 
 #include "SequenceMap.h"
-#include "BinarySearchTree.h"
-#include "AvlTree.h"
-#include "LazyAVLTree.h"
 
 using namespace std;
 
-
+/* 
+ Parses file and returns a tree of type TreeType containing data in file
+    Pre-conditions: readf is an open, initialized file stream for a valid data 
+                    file. 
+ */
 template <typename TreeType>
-class TreeParser {
+TreeType parse_tree(istream &readf) {
     
-public:
-    
-    TreeParser(ifstream &is);
-    
-    TreeParser(const TreeParser &copy);
-    
-    ~TreeParser();
+    TreeType tree;
+    string line;
 
-    // Returns number of nodes in tree
-    int get_num_nodes();
+    // For each line in file
+    while (getline(readf, line)) {
+        
+        istringstream seqmapss(line);
+        size_t last_letter = line.length() - 1;
+        
+        if (line[last_letter] == '/' && line[last_letter-1] == '/') {
+        
+            // Split line into acronym and recognition sequences
+            string enzyme_acronym;
+            string all_seqs;
+            getline(seqmapss, enzyme_acronym, '/');
+            getline(seqmapss, all_seqs, '\n');
+            
+            // Get the next recognition sequence
+            istringstream seqss(all_seqs);
+            string s;
+            while (getline(seqss, s, '/')){
+                if (!s.empty()){
+                    SequenceMap smap(s, enzyme_acronym);
+                    tree.insert(smap);
+                }
+            }
+        }
+        else {
+            //  Header: Line doesn't end in double slash. Do nothing.
+        }
+    }
     
-    void query (string query_sequence, ostream &os = cout );
-    
-    
-private:
-    
-    /* MEMBER DATA VARIABLES */
-    TreeType sequence_tree;
-    int num_of_nodes;
-    
-    
-    void PopulateTree(ifstream &is, int count = 0);
-
-    
-    
-};
+    return tree;
+}
 
 #endif

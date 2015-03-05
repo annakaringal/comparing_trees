@@ -12,16 +12,18 @@
 #define ____SequenceMap__
 
 #include <iostream>
-#include <vector>
+#include <set>
 using namespace std;
 
 class SequenceMap {
 private:
     
     string sequence;
-    vector <string> enzyme_acronyms;
+    set <string> enzyme_acronyms;
     
 public:
+    
+    SequenceMap(string seq, string acronym);
     
     string get_sequence() const;
     

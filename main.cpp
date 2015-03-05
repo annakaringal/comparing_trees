@@ -36,7 +36,16 @@ int main(int argc, const char * argv[]) {
         if (readf.is_open()) {
             
             try {
+                // Parse tree
+                BinarySearchTree<SequenceMap> bst = parse_tree<BinarySearchTree<SequenceMap>>(readf);
                 
+                // Get user query
+                cout << "Recognition sequence: ";
+                string query_seq;
+                cin >> query_seq;
+                
+                
+                // If sequence is in tree, print all corresponding enzymes
                 
             }
             catch (...) {
