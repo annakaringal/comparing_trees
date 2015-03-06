@@ -3,7 +3,7 @@
 
 #include "dsexceptions.h"
 #include <algorithm>
-#include <iostream> 
+#include <iostream>
 using namespace std;
 
 // AvlTree class
@@ -25,15 +25,15 @@ using namespace std;
 template <typename Comparable>
 class AvlTree
 {
-  public:
+public:
     AvlTree( ) : root{ nullptr }
-      { }
+    { }
     
     AvlTree( const AvlTree & rhs ) : root{ nullptr }
     {
         root = clone( rhs.root );
     }
-
+    
     AvlTree( AvlTree && rhs ) : root{ rhs.root }
     {
         rhs.root = nullptr;
@@ -43,7 +43,7 @@ class AvlTree
     {
         makeEmpty( );
     }
-
+    
     /**
      * Deep copy.
      */
@@ -53,7 +53,7 @@ class AvlTree
         std::swap( *this, copy );
         return *this;
     }
-        
+    
     /**
      * Move.
      */
@@ -74,7 +74,7 @@ class AvlTree
             throw UnderflowException{ };
         return findMin( root )->element;
     }
-
+    
     /**
      * Find the largest item in the tree.
      * Throw UnderflowException if empty.
@@ -85,7 +85,7 @@ class AvlTree
             throw UnderflowException{ };
         return findMax( root )->element;
     }
-
+    
     /**
      * Returns true if x is found in the tree.
      */
@@ -93,7 +93,7 @@ class AvlTree
     {
         return contains( x, root );
     }
-
+    
     /**
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
@@ -102,7 +102,7 @@ class AvlTree
     {
         return root == nullptr;
     }
-
+    
     /**
      * Print the tree contents in sorted order.
      */
@@ -113,7 +113,7 @@ class AvlTree
         else
             printTree( root );
     }
-
+    
     /**
      * Make the tree logically empty.
      */
@@ -121,7 +121,7 @@ class AvlTree
     {
         makeEmpty( root );
     }
-
+    
     /**
      * Insert x into the tree; duplicates are ignored.
      */
@@ -129,7 +129,7 @@ class AvlTree
     {
         insert( x, root );
     }
-     
+    
     /**
      * Insert x into the tree; duplicates are ignored.
      */
@@ -137,7 +137,7 @@ class AvlTree
     {
         insert( std::move( x ), root );
     }
-     
+    
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
@@ -145,25 +145,25 @@ class AvlTree
     {
         remove( x, root );
     }
-
-  private:
+    
+private:
     struct AvlNode
     {
         Comparable element;
         AvlNode   *left;
         AvlNode   *right;
         int       height;
-
+        
         AvlNode( const Comparable & ele, AvlNode *lt, AvlNode *rt, int h = 0 )
-          : element{ ele }, left{ lt }, right{ rt }, height{ h } { }
+        : element{ ele }, left{ lt }, right{ rt }, height{ h } { }
         
         AvlNode( Comparable && ele, AvlNode *lt, AvlNode *rt, int h = 0 )
-          : element{ std::move( ele ) }, left{ lt }, right{ rt }, height{ h } { }
+        : element{ std::move( ele ) }, left{ lt }, right{ rt }, height{ h } { }
     };
-
+    
     AvlNode *root;
-
-
+    
+    
     /**
      * Internal method to insert into a subtree.
      * x is the item to insert.
@@ -181,7 +181,7 @@ class AvlTree
         
         balance( t );
     }
-
+    
     /**
      * Internal method to insert into a subtree.
      * x is the item to insert.
@@ -199,7 +199,7 @@ class AvlTree
         
         balance( t );
     }
-     
+    
     /**
      * Internal method to remove from a subtree.
      * x is the item to remove.
@@ -231,7 +231,7 @@ class AvlTree
     }
     
     static const int ALLOWED_IMBALANCE = 1;
-
+    
     // Assume t is balanced or within one of being balanced
     void balance( AvlNode * & t )
     {
@@ -243,13 +243,13 @@ class AvlTree
                 rotateWithLeftChild( t );
             else
                 doubleWithLeftChild( t );
-        else
-        if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
-            if( height( t->right->right ) >= height( t->right->left ) )
-                rotateWithRightChild( t );
             else
-                doubleWithRightChild( t );
-                
+                if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
+                    if( height( t->right->right ) >= height( t->right->left ) )
+                        rotateWithRightChild( t );
+                    else
+                        doubleWithRightChild( t );
+        
         t->height = max( height( t->left ), height( t->right ) ) + 1;
     }
     
@@ -265,7 +265,7 @@ class AvlTree
             return t;
         return findMin( t->left );
     }
-
+    
     /**
      * Internal method to find the largest item in a subtree t.
      * Return node containing the largest item.
@@ -277,8 +277,8 @@ class AvlTree
                 t = t->right;
         return t;
     }
-
-
+    
+    
     /**
      * Internal method to test if an item is in a subtree.
      * x is item to search for.
@@ -295,21 +295,21 @@ class AvlTree
         else
             return true;    // Match
     }
-/****** NONRECURSIVE VERSION*************************
-    bool contains( const Comparable & x, AvlNode *t ) const
-    {
-        while( t != nullptr )
-            if( x < t->element )
-                t = t->left;
-            else if( t->element < x )
-                t = t->right;
-            else
-                return true;    // Match
-
-        return false;   // No match
-    }
-*****************************************************/
-
+    /****** NONRECURSIVE VERSION*************************
+     bool contains( const Comparable & x, AvlNode *t ) const
+     {
+     while( t != nullptr )
+     if( x < t->element )
+     t = t->left;
+     else if( t->element < x )
+     t = t->right;
+     else
+     return true;    // Match
+     
+     return false;   // No match
+     }
+     *****************************************************/
+    
     /**
      * Internal method to make subtree empty.
      */
@@ -323,7 +323,7 @@ class AvlTree
         }
         t = nullptr;
     }
-
+    
     /**
      * Internal method to print a subtree rooted at t in sorted order.
      */
@@ -336,7 +336,7 @@ class AvlTree
             printTree( t->right );
         }
     }
-
+    
     /**
      * Internal method to clone subtree.
      */
@@ -347,7 +347,7 @@ class AvlTree
         else
             return new AvlNode{ t->element, clone( t->left ), clone( t->right ), t->height };
     }
-        // Avl manipulations
+    // Avl manipulations
     /**
      * Return the height of node t or -1 if nullptr.
      */
@@ -355,12 +355,12 @@ class AvlTree
     {
         return t == nullptr ? -1 : t->height;
     }
-
+    
     int max( int lhs, int rhs ) const
     {
         return lhs > rhs ? lhs : rhs;
     }
-
+    
     /**
      * Rotate binary tree node with left child.
      * For AVL trees, this is a single rotation for case 1.
@@ -375,7 +375,7 @@ class AvlTree
         k1->height = max( height( k1->left ), k2->height ) + 1;
         k2 = k1;
     }
-
+    
     /**
      * Rotate binary tree node with right child.
      * For AVL trees, this is a single rotation for case 4.
@@ -390,7 +390,7 @@ class AvlTree
         k2->height = max( height( k2->right ), k1->height ) + 1;
         k1 = k2;
     }
-
+    
     /**
      * Double rotate binary tree node: first left child.
      * with its right child; then node k3 with new left child.
@@ -402,7 +402,7 @@ class AvlTree
         rotateWithRightChild( k3->left );
         rotateWithLeftChild( k3 );
     }
-
+    
     /**
      * Double rotate binary tree node: first right child.
      * with its left child; then node k1 with new right child.

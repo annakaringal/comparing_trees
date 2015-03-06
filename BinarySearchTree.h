@@ -3,7 +3,7 @@
 
 #include "dsexceptions.h"
 #include <algorithm>
-using namespace std;       
+using namespace std;
 
 // BinarySearchTree class
 //
@@ -24,11 +24,11 @@ using namespace std;
 template <typename Comparable>
 class BinarySearchTree
 {
-  public:
+public:
     BinarySearchTree( ) : root{ nullptr }
     {
     }
-
+    
     /**
      * Copy constructor
      */
@@ -36,7 +36,7 @@ class BinarySearchTree
     {
         root = clone( rhs.root );
     }
-
+    
     /**
      * Move constructor
      */
@@ -52,7 +52,7 @@ class BinarySearchTree
     {
         makeEmpty( );
     }
-
+    
     /**
      * Copy assignment
      */
@@ -62,13 +62,13 @@ class BinarySearchTree
         std::swap( *this, copy );
         return *this;
     }
-        
+    
     /**
      * Move assignment
      */
     BinarySearchTree & operator=( BinarySearchTree && rhs )
     {
-        std::swap( root, rhs.root );       
+        std::swap( root, rhs.root );
         return *this;
     }
     
@@ -83,7 +83,7 @@ class BinarySearchTree
             throw UnderflowException{ };
         return findMin( root )->element;
     }
-
+    
     /**
      * Find the largest item in the tree.
      * Throw UnderflowException if empty.
@@ -94,7 +94,7 @@ class BinarySearchTree
             throw UnderflowException{ };
         return findMax( root )->element;
     }
-
+    
     /**
      * Returns true if x is found in the tree.
      */
@@ -102,7 +102,7 @@ class BinarySearchTree
     {
         return contains( x, root );
     }
-
+    
     /**
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
@@ -111,7 +111,7 @@ class BinarySearchTree
     {
         return root == nullptr;
     }
-
+    
     /**
      * Print the tree contents in sorted order.
      */
@@ -122,7 +122,7 @@ class BinarySearchTree
         else
             printTree( root, out );
     }
-
+    
     /**
      * Make the tree logically empty.
      */
@@ -130,7 +130,7 @@ class BinarySearchTree
     {
         makeEmpty( root );
     }
-
+    
     /**
      * Insert x into the tree; duplicates are ignored.
      */
@@ -138,13 +138,13 @@ class BinarySearchTree
     {
         insert( x, root );
     }
-     
+    
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( Comparable && x, int &count=0 )
+    void insert( Comparable && x )
     {
-        insert( std::move( x ), root, count );
+        insert( std::move( x ), root );
     }
     
     /**
@@ -154,44 +154,39 @@ class BinarySearchTree
     {
         remove( x, root );
     }
-
-
-  private:
+    
+    
+private:
     struct BinaryNode
     {
         Comparable element;
         BinaryNode *left;
         BinaryNode *right;
-
+        
         BinaryNode( const Comparable & theElement, BinaryNode *lt, BinaryNode *rt )
-          : element{ theElement }, left{ lt }, right{ rt } { }
+        : element{ theElement }, left{ lt }, right{ rt } { }
         
         BinaryNode( Comparable && theElement, BinaryNode *lt, BinaryNode *rt )
-          : element{ std::move( theElement ) }, left{ lt }, right{ rt } { }
+        : element{ std::move( theElement ) }, left{ lt }, right{ rt } { }
     };
-
+    
     BinaryNode *root;
-
-
+    
+    
     /**
      * Internal method to insert into a subtree.
      * x is the item to insert.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( const Comparable & x, BinaryNode * & t, int &count = 0)
+    void insert( const Comparable & x, BinaryNode * & t )
     {
-        if( t == nullptr ){
+        if( t == nullptr )
             t = new BinaryNode{ x, nullptr, nullptr };
-        }
-        else if( x < t->element ){
-            count++;
-            insert( x, t->left, count );
-        }
-        else if( t->element < x ){
-            count++;
-            insert( x, t->right, count );
-        }
+        else if( x < t->element )
+            insert( x, t->left );
+        else if( t->element < x )
+            insert( x, t->right );
         else
             ;  // Duplicate; do nothing
     }
@@ -202,47 +197,36 @@ class BinarySearchTree
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( Comparable && x, BinaryNode * & t , int& count = 0)
+    void insert( Comparable && x, BinaryNode * & t )
     {
-        if( t == nullptr ){
+        if( t == nullptr )
             t = new BinaryNode{ std::move( x ), nullptr, nullptr };
-        }
-        else if( x < t->element ){
-            count++;
-            insert( std::move( x ), t->left, count );
-        }
-        else if( t->element < x ){
-            count++;
-            insert( std::move( x ), t->right, count );
-        }
+        else if( x < t->element )
+            insert( std::move( x ), t->left );
+        else if( t->element < x )
+            insert( std::move( x ), t->right );
         else
             ;  // Duplicate; do nothing
     }
-
+    
     /**
      * Internal method to remove from a subtree.
      * x is the item to remove.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void remove( const Comparable & x, BinaryNode * & t, int &count = 0)
+    void remove( const Comparable & x, BinaryNode * & t )
     {
-        
         if( t == nullptr )
             return;   // Item not found; do nothing
-        if( x < t->element ){
-            count++;
-            remove( x, t->left, count);
-        }
-        else if( t->element < x ){
-            count++;
-            remove( x, t->right, count);
-        }
+        if( x < t->element )
+            remove( x, t->left );
+        else if( t->element < x )
+            remove( x, t->right );
         else if( t->left != nullptr && t->right != nullptr ) // Two children
         {
             t->element = findMin( t->right )->element;
-            count++;
-            remove( t->element, t->right, count );
+            remove( t->element, t->right );
         }
         else
         {
@@ -251,7 +235,7 @@ class BinarySearchTree
             delete oldNode;
         }
     }
-
+    
     /**
      * Internal method to find the smallest item in a subtree t.
      * Return node containing the smallest item.
@@ -266,7 +250,7 @@ class BinarySearchTree
             return min;
         return findMin( t->left, min );
     }
-
+    
     /**
      * Internal method to find the largest item in a subtree t.
      * Return node containing the largest item.
@@ -278,44 +262,39 @@ class BinarySearchTree
                 t = t->right;
         return t;
     }
-
-
+    
+    
     /**
      * Internal method to test if an item is in a subtree.
      * x is item to search for.
      * t is the node that roots the subtree.
      */
-    bool contains( const Comparable & x, BinaryNode *t, int count=0 ) const
+    bool contains( const Comparable & x, BinaryNode *t ) const
     {
-        if( t == nullptr ){
+        if( t == nullptr )
             return false;
-        }
-        else if( x < t->element ){
-            count++;
-            return contains( x, t->left, count );
-        }
-        else if( t->element < x ){
-            count ++;
-            return contains( x, t->right, count );
-        }
+        else if( x < t->element )
+            return contains( x, t->left );
+        else if( t->element < x )
+            return contains( x, t->right );
         else
             return true;    // Match
     }
-/****** NONRECURSIVE VERSION*************************
-    bool contains( const Comparable & x, BinaryNode *t ) const
-    {
-        while( t != nullptr )
-            if( x < t->element )
-                t = t->left;
-            else if( t->element < x )
-                t = t->right;
-            else
-                return true;    // Match
-
-        return false;   // No match
-    }
-*****************************************************/
-
+    /****** NONRECURSIVE VERSION*************************
+     bool contains( const Comparable & x, BinaryNode *t ) const
+     {
+     while( t != nullptr )
+     if( x < t->element )
+     t = t->left;
+     else if( t->element < x )
+     t = t->right;
+     else
+     return true;    // Match
+     
+     return false;   // No match
+     }
+     *****************************************************/
+    
     /**
      * Internal method to make subtree empty.
      */
@@ -329,7 +308,7 @@ class BinarySearchTree
         }
         t = nullptr;
     }
-
+    
     /**
      * Internal method to print a subtree rooted at t in sorted order.
      */
@@ -342,7 +321,7 @@ class BinarySearchTree
             printTree( t->right, out );
         }
     }
-
+    
     /**
      * Internal method to clone subtree.
      */
