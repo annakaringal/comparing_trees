@@ -100,7 +100,9 @@ public:
      */
     bool contains( const Comparable & x ) const
     {
-        return contains( x, root );
+        int count = 0;
+        return contains( x, root, count );
+        cout << "Recursive calls to insert: " << count << endl;
     }
     
     /**
@@ -136,15 +138,20 @@ public:
      */
     void insert( const Comparable & x )
     {
-        insert( x, root );
+        int count = 0;
+        insert(x, root, count);
+        cout << "Recursive calls to insert: " << count << endl;
+        
     }
     
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( Comparable && x )
+    void insert ( Comparable &x )
     {
-        insert( std::move( x ), root );
+        int count = 0;
+        insert( std::move( x ), root, count);
+        cout << "Recursive calls to insert: " << count << endl;
     }
     
     /**
@@ -152,7 +159,9 @@ public:
      */
     void remove( const Comparable & x )
     {
-        remove( x, root );
+        int count = 0;
+        remove( x, root, count);
+        cout << "Recursive calls to remove: " << count << endl;
     }
     
     
@@ -179,16 +188,23 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( const Comparable & x, BinaryNode * & t )
+    void insert( const Comparable & x, BinaryNode * & t, int &count)
     {
-        if( t == nullptr )
+        if( t == nullptr ){
             t = new BinaryNode{ x, nullptr, nullptr };
-        else if( x < t->element )
-            insert( x, t->left );
-        else if( t->element < x )
-            insert( x, t->right );
-        else
+        }
+        else if( x < t->element ){
+            count ++;
+            insert( x, t->left, count);
+        }
+        else if( t->element < x ){
+            count ++;
+            insert( x, t->right, count );
+        }
+        else {
             ;  // Duplicate; do nothing
+            
+        }
     }
     
     /**
@@ -197,16 +213,22 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( Comparable && x, BinaryNode * & t )
+    void insert( Comparable && x, BinaryNode * & t, int &count)
     {
-        if( t == nullptr )
+        if( t == nullptr ){
             t = new BinaryNode{ std::move( x ), nullptr, nullptr };
-        else if( x < t->element )
-            insert( std::move( x ), t->left );
-        else if( t->element < x )
-            insert( std::move( x ), t->right );
-        else
+        }
+        else if( x < t->element ){
+            count ++;
+            insert( std::move( x ), t->left, count);
+        }
+        else if( t->element < x ){
+            count ++;
+            insert( std::move( x ), t->right, count);
+        }
+        else{
             ;  // Duplicate; do nothing
+        }
     }
     
     /**
@@ -215,18 +237,24 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void remove( const Comparable & x, BinaryNode * & t )
+    int remove( const Comparable & x, BinaryNode * & t, int & count)
     {
         if( t == nullptr )
-            return;   // Item not found; do nothing
-        if( x < t->element )
-            remove( x, t->left );
+            // Item not found; do nothing
+        if( x < t->element ){
+            count ++;
+            remove( x, t->left, count);
+        }
         else if( t->element < x )
-            remove( x, t->right );
+        {
+            count ++;
+            remove( x, t->right, count);
+        }
         else if( t->left != nullptr && t->right != nullptr ) // Two children
         {
             t->element = findMin( t->right )->element;
-            remove( t->element, t->right );
+            count ++;
+            remove( t->element, t->right, count);
         }
         else
         {
@@ -269,14 +297,18 @@ private:
      * x is item to search for.
      * t is the node that roots the subtree.
      */
-    bool contains( const Comparable & x, BinaryNode *t ) const
+    bool contains( const Comparable & x, BinaryNode *t, int &count ) const
     {
         if( t == nullptr )
             return false;
-        else if( x < t->element )
-            return contains( x, t->left );
-        else if( t->element < x )
-            return contains( x, t->right );
+        else if( x < t->element ){
+            count++;
+            return contains( x, t->left, count );
+        }
+        else if( t->element < x ){
+            count ++;
+            return contains( x, t->right, count );
+        }
         else
             return true;    // Match
     }

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 #include "AvlTree.h"
 #include "LazyAVLTree.h"
@@ -14,6 +15,26 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
+    
+    
+    vector<int> myints = {1,9,10,3,5,4,6,8,7,2};
+    
+    BinarySearchTree<int> bst;
+    
+    for (auto x : myints){
+        cout << "Inserting " << x << "..." << endl;
+        bst.insert(x);
+    }
+    
+    vector<int> removeints = {4,6,8};
+    
+    for (auto x: removeints) {
+        cout << "Removing " << x << "..." << endl;
+        bst.remove(x);
+        
+    }
+    
+    /*
     if (argc !=3){
         // Incorrect number of arguments given in command line
         cerr << "ERROR: Invalid number of arguments." << endl;
@@ -56,7 +77,7 @@ int main(int argc, const char * argv[]) {
         
         readf.close();
         
-    }
+    }*/
     
     
     return 0;
