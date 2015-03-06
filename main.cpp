@@ -19,7 +19,7 @@ int main(int argc, const char * argv[]) {
     
     vector<int> myints = {1,9,10,3,5,4,6,8,7,2};
     
-    BinarySearchTree<int> bst;
+    AvlTree<int> bst;
     
     for (auto x : myints){
         cout << "Inserting " << x << "..." << endl;

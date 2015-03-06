@@ -91,7 +91,10 @@ public:
      */
     bool contains( const Comparable & x ) const
     {
-        return contains( x, root );
+        int count = 0;
+        bool c = contains( x, root, count );
+        cout << "Recursive calls to contains: " << count << endl;
+        return c;
     }
     
     /**
@@ -127,7 +130,9 @@ public:
      */
     void insert( const Comparable & x )
     {
-        insert( x, root );
+        int count = 0;
+        insert( x, root, count );
+        cout << "Recursive calls to insert: " << count << endl;
     }
     
     /**
@@ -135,7 +140,9 @@ public:
      */
     void insert( Comparable && x )
     {
-        insert( std::move( x ), root );
+        int count = 0;
+        insert( std::move( x ), root, count );
+        cout << "Recursive calls to insert: " << count << endl;
     }
     
     /**
@@ -143,7 +150,9 @@ public:
      */
     void remove( const Comparable & x )
     {
-        remove( x, root );
+        int count = 0;
+        remove( x, root, count );
+        cout << "Recursive calls to remove: " << count << endl;
     }
     
 private:
@@ -170,14 +179,18 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( const Comparable & x, AvlNode * & t )
+    void insert( const Comparable & x, AvlNode * & t, int &count)
     {
         if( t == nullptr )
             t = new AvlNode{ x, nullptr, nullptr };
-        else if( x < t->element )
-            insert( x, t->left );
-        else if( t->element < x )
-            insert( x, t->right );
+        else if( x < t->element ){
+            count ++;
+            insert( x, t->left, count);
+        }
+        else if( t->element < x ){
+            count ++;
+            insert( x, t->right, count);
+        }
         
         balance( t );
     }
@@ -188,14 +201,18 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( Comparable && x, AvlNode * & t )
+    void insert( Comparable && x, AvlNode * & t, int &count)
     {
         if( t == nullptr )
             t = new AvlNode{ std::move( x ), nullptr, nullptr };
-        else if( x < t->element )
+        else if( x < t->element ){
+            count ++;
             insert( std::move( x ), t->left );
-        else if( t->element < x )
+        }
+        else if( t->element < x ){
+            count ++;
             insert( std::move( x ), t->right );
+        }
         
         balance( t );
     }
@@ -206,19 +223,24 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void remove( const Comparable & x, AvlNode * & t )
+    void remove( const Comparable & x, AvlNode * &t, int &count)
     {
         if( t == nullptr )
             return;   // Item not found; do nothing
         
-        if( x < t->element )
-            remove( x, t->left );
-        else if( t->element < x )
-            remove( x, t->right );
+        if( x < t->element ){
+            count++;
+            remove( x, t->left, count );
+        }
+        else if( t->element < x ){
+            count++;
+            remove( x, t->right, count );
+        }
         else if( t->left != nullptr && t->right != nullptr ) // Two children
         {
             t->element = findMin( t->right )->element;
-            remove( t->element, t->right );
+            count ++;
+            remove( t->element, t->right, count );
         }
         else
         {
@@ -284,14 +306,18 @@ private:
      * x is item to search for.
      * t is the node that roots the tree.
      */
-    bool contains( const Comparable & x, AvlNode *t ) const
+    bool contains( const Comparable & x, AvlNode *t, int &count ) const
     {
         if( t == nullptr )
             return false;
-        else if( x < t->element )
-            return contains( x, t->left );
-        else if( t->element < x )
-            return contains( x, t->right );
+        else if( x < t->element ){
+            count ++;
+            return contains( x, t->left, count );
+        }
+        else if( t->element < x ){
+            count++;
+            return contains( x, t->right, count );
+        }
         else
             return true;    // Match
     }
