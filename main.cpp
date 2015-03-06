@@ -26,6 +26,8 @@ int main(int argc, const char * argv[]) {
         bst.insert(x);
     }
     
+    cout << bst.contains(7) << endl;
+    
     vector<int> removeints = {4,6,8};
     
     for (auto x: removeints) {
@@ -33,6 +35,8 @@ int main(int argc, const char * argv[]) {
         bst.remove(x);
         
     }
+    
+    cout << bst.contains(7);
     
     /*
     if (argc !=3){

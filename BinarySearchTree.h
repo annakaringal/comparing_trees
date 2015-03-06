@@ -101,8 +101,9 @@ public:
     bool contains( const Comparable & x ) const
     {
         int count = 0;
-        return contains( x, root, count );
-        cout << "Recursive calls to insert: " << count << endl;
+        bool c = contains( x, root, count );
+        cout << "Recursive calls to contains: " << count << endl;
+        return c;
     }
     
     /**
@@ -237,10 +238,10 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    int remove( const Comparable & x, BinaryNode * & t, int & count)
+     void remove( const Comparable & x, BinaryNode * & t, int & count)
     {
         if( t == nullptr )
-            // Item not found; do nothing
+            ; // Item not found; do nothing
         if( x < t->element ){
             count ++;
             remove( x, t->left, count);
@@ -268,15 +269,13 @@ private:
      * Internal method to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
-    BinaryNode * findMin( BinaryNode *t, BinaryNode *min ) const
+    BinaryNode * findMin( BinaryNode *t) const
     {
         if( t == nullptr )
             return nullptr;
-        if( !t->isDeleted )
-            min = t;
         if( t->left == nullptr )
-            return min;
-        return findMin( t->left, min );
+            return t;
+        return findMin( t->left);
     }
     
     /**
