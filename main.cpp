@@ -15,28 +15,54 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    
-    
     vector<int> myints = {1,9,10,3,5,4,6,8,7,2};
     
-    AvlTree<int> bst;
+    LazyAvlTree<int> tree;
     
-    for (auto x : myints){
-        cout << "Inserting " << x << "..." << endl;
-        bst.insert(x);
+    for (auto x: myints) {
+        tree.insert(x);
     }
     
-    cout << bst.contains(7) << endl;
+   // tree.AvlTree<int>::printTree();
+    
+    AvlTree<int> avl;
+    cout << "====" << endl;
+    
+    for (auto x: myints) {
+        avl.insert(x);
+    }
+    
     
     vector<int> removeints = {4,6,8};
     
     for (auto x: removeints) {
         cout << "Removing " << x << "..." << endl;
-        bst.remove(x);
+        tree.remove(x);
+        
+    }
+
+    for (auto x: removeints) {
+        cout << "Removing " << x << "..." << endl;
+       avl.remove(x);
         
     }
     
-    cout << bst.contains(7);
+   /* for (auto x : myints){
+        cout << "Inserting " << x << "..." << endl;
+        tree.insert(x);
+    }
+    
+    cout << tree.contains(7) << endl;
+    
+    vector<int> removeints = {4,6,8};
+    
+    for (auto x: removeints) {
+        cout << "Removing " << x << "..." << endl;
+        tree.remove(x);
+        
+    }
+    
+    cout << tree.contains(7);*/
     
     /*
     if (argc !=3){

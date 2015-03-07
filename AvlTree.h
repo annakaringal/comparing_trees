@@ -179,7 +179,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( const Comparable & x, AvlNode * & t, int &count)
+    void insert( const Comparable & x, AvlNode * & t, int &count )
     {
         if( t == nullptr )
             t = new AvlNode{ x, nullptr, nullptr };
@@ -190,6 +190,9 @@ private:
         else if( t->element < x ){
             count ++;
             insert( x, t->right, count);
+        }
+        else {
+            ; // Duplicate
         }
         
         balance( t );
@@ -207,11 +210,11 @@ private:
             t = new AvlNode{ std::move( x ), nullptr, nullptr };
         else if( x < t->element ){
             count ++;
-            insert( std::move( x ), t->left );
+            insert( std::move( x ), t->left, count );
         }
         else if( t->element < x ){
             count ++;
-            insert( std::move( x ), t->right );
+            insert( std::move( x ), t->right, count);
         }
         
         balance( t );
@@ -321,6 +324,7 @@ private:
         else
             return true;    // Match
     }
+    
     /****** NONRECURSIVE VERSION*************************
      bool contains( const Comparable & x, AvlNode *t ) const
      {
