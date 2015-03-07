@@ -149,9 +149,8 @@ public:
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( const Comparable & x )
+    void insert( const Comparable & x, int &count )
     {
-        int count = 0;
         insert(x, root, count);
         
     }
@@ -159,9 +158,8 @@ public:
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert ( Comparable &x )
+    void insert ( Comparable &x, int &count )
     {
-        int count = 0;
         insert( std::move( x ), root, count);
         
     }
