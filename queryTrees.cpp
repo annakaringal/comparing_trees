@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <ctype.h>
 
 #include "AvlTree.h"
 #include "LazyAVLTree.h"
@@ -23,6 +24,9 @@ int main(int argc, const char * argv[]) {
         
         string file_name = argv[1];
         string tree_type = argv[2];
+       
+        // For case insensitive argument comparison
+        transform(tree_type.begin(), tree_type.end(), tree_type.begin(), ::tolower);
         
         ifstream readf;
         readf.open(file_name.c_str());
@@ -36,16 +40,16 @@ int main(int argc, const char * argv[]) {
             
             try {
                 
-                if (tree_type == "BST") {
+                if (tree_type == "bst") {
                     BinarySearchTree<SequenceMap> tree = parse_tree<BinarySearchTree<SequenceMap>>(readf);
                     print_seqmap(tree);
                     
                 }
-                else if (tree_type == "AVL"){
+                else if (tree_type == "avl"){
                     AvlTree<SequenceMap> tree = parse_tree<AvlTree<SequenceMap>>(readf);
                     print_seqmap(tree);
                 }
-                else if (tree_type == "LazyAVL") {
+                else if (tree_type == "lazyavl") {
                     LazyAvlTree<SequenceMap> tree = parse_tree<LazyAvlTree<SequenceMap>>(readf);
                     print_seqmap(tree);
                     
