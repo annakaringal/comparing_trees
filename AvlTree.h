@@ -106,6 +106,22 @@ public:
         return root == nullptr;
     }
     
+    
+    /**
+     * Prints contents of the node containing element x
+     */
+    void print_node (const Comparable & x ) const{
+        AvlNode* found = find (x, root);
+        if (found == nullptr) {
+            cout << "Element not found in tree." << endl;
+        }
+        else {
+            cout << found->element << endl;
+        }
+    }
+    
+
+    
     /**
      * Print the tree contents in sorted order.
      */
@@ -316,6 +332,21 @@ private:
                 t = t->right;
         return t;
     }
+    
+    AvlNode * find ( const Comparable & x, AvlNode *t, int &count ) const
+    {
+        if( t == nullptr )
+            return nullptr;
+        else if( x < t->element ){
+            return contains( x, t->left );
+        }
+        else if( t->element < x ){
+            return find( x, t->right );
+        }
+        else
+            return t;    // Match. Return pointer to node.
+    }
+
     
     
     /**

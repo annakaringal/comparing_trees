@@ -96,6 +96,19 @@ public:
     }
     
     /**
+     * Prints contents of the node containing element x
+     */
+    void print_node (const Comparable & x ) const{
+        BinaryNode* found = find (x, root);
+        if (found == nullptr) {
+            cout << "Element not found in tree." << endl;
+        }
+        else {
+            cout << found->element << endl;
+        }
+    }
+    
+    /**
      * Returns true if x is found in the tree.
      */
     bool contains( const Comparable & x ) const
@@ -302,6 +315,19 @@ private:
         return t;
     }
     
+    BinaryNode* find (const Comparable & x, BinaryNode *t) const
+    {
+        if( t == nullptr ) // Item not found
+            return nullptr;
+        else if( x < t->element ){
+            return find( x, t->left );
+        }
+        else if( t->element < x ){
+            return find( x, t->right );
+        }
+        else
+            return t;    // Match
+    }
     
     /**
      * Internal method to test if an item is in a subtree.
