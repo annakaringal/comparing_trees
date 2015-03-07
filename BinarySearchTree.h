@@ -314,6 +314,7 @@ private:
     
     BinaryNode* find (const Comparable & x, BinaryNode *t) const
     {
+        
         if( t == nullptr ) // Item not found
             return nullptr;
         else if( t->element > x ){
