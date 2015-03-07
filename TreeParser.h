@@ -70,7 +70,7 @@ void print_seqmap(TreeType &tree){
     bool cont = true;
     
     while (cont){
-        cout << "Recognition Sequence [or enter 'q' to quit]: " ;
+        cout << "Enter Recognition Sequence [or enter 'q' to quit]: " ;
         cin >> query;
         
         if (query == "q") {

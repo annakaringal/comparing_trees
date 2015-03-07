@@ -32,6 +32,9 @@ public:
     // In case of duplicates: adds other SequenceMap's enzyme acronym to enzyme acronyms
     void merge(SequenceMap &other);
     
+    // In case of duplicates: adds other SequenceMap's enzyme acronym to enzyme acronyms
+    void merge(const SequenceMap &other);
+    
     // Comparison operators
     bool operator< (const SequenceMap &right);
     

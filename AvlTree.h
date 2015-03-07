@@ -203,8 +203,8 @@ private:
             count ++;
             insert( x, t->right, count);
         }
-        else {
-            ; // Duplicate
+        else { // Merge duplicates
+            t->element.merge(x);
         }
         
         balance( t );
@@ -227,6 +227,9 @@ private:
         else if( t->element < x ){
             count ++;
             insert( std::move( x ), t->right, count);
+        }
+        else {
+            t->element.merge(x);
         }
         
         balance( t );

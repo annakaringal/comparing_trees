@@ -23,6 +23,20 @@ void SequenceMap::merge(SequenceMap &other){
     
 }
 
+void SequenceMap::merge(const SequenceMap &other){
+    
+    // Check if sequences of both sequences are the same
+    if (other.get_sequence() != sequence) {
+        throw logic_error(other.get_sequence());
+    }
+    
+    // Merge: Add other's acronyms to sequence map
+    for (auto s: other.get_acronyms()){
+        enzyme_acronyms.insert(s);
+    }
+    
+}
+
 bool SequenceMap::operator< (const SequenceMap &right){
     
     if (this->get_sequence() < right.get_sequence()) {

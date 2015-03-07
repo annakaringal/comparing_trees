@@ -12,7 +12,6 @@
 #include "TreeParser.h"
 
 using namespace std;
-
 int main(int argc, const char * argv[]) {
     
     if (argc !=3){

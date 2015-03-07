@@ -213,8 +213,7 @@ private:
             insert( x, t->right, count );
         }
         else {
-            ;  // Duplicate; do nothing
-            
+            t->element.merge(x);
         }
     }
     
@@ -238,7 +237,7 @@ private:
             insert( std::move( x ), t->right, count);
         }
         else{
-            ;  // Duplicate; do nothing
+            t->element.merge(x);
         }
     }
     
