@@ -4,7 +4,7 @@
  Created on:        February 21, 2015
  Description:       
  
- Last Modified:     March 5, 2015
+ Last Modified:     March 7, 2015
  
  *****************************************************************************/
 
@@ -26,61 +26,67 @@ using namespace std;
                     file. 
  */
 template <typename TreeType>
-TreeType parse_tree(istream &readf) {
+class TreeParser{
     
-    TreeType tree;
-    string line;
-
-    // For each line in file
-    while (getline(readf, line)) {
+public:
+    
+    /**
+     * Constructs a new tree parsed from file stream
+     */
+    TreeParser(ifstream &readfile){
+        tree = parse_tree(readfile);
+    }
+    
+    /**
+     * Constructs a new tree parsed from file stream
+     * Prints out number of
+     */
+    TreeParser(ifstream &readfile, int &count){
+        tree = parse_tree(readfile, count);
+    }
+    
+    /**
+     * Copy constructor
+     */
+    TreeParser( const TreeParser &tp ){
+        tree = tp.tree;
+    }
+    
+    /**
+     * Gets recognition sequence query from user
+     * If query is a sequence in the tree, prints all enzyme acronyms for sequence
+     */
+    void print_seqmap(){
         
-        istringstream seqmapss(line);
-        size_t last_letter = line.length() - 1;
+        string query;
+        bool cont = true;
         
-        if (line[last_letter] == '/' && line[last_letter-1] == '/') {
-        
-            // Split line into acronym and recognition sequences
-            string enzyme_acronym;
-            string all_seqs;
-            getline(seqmapss, enzyme_acronym, '/');
-            getline(seqmapss, all_seqs, '\n');
+        while (cont){
+            cout << "Enter Recognition Sequence [or enter 'q' to quit]: " ;
+            cin >> query;
             
-            // Get the next recognition sequence
-            istringstream seqss(all_seqs);
-            string s;
-            while (getline(seqss, s, '/')){
-                if (!s.empty()){
-                    SequenceMap smap(s, enzyme_acronym);
-                    tree.insert(smap);
-                }
+            if (query == "q") {
+                cont = false;
+            }
+            else {
+                SequenceMap seqmap_query(query, "");
+                tree.print_node(seqmap_query);
             }
         }
-        else {
-            //  Header: Line doesn't end in double slash. Do nothing.
-        }
-    }
-    
-    return tree;
-}
 
-template <typename TreeType>
-void print_seqmap(TreeType &tree){
-    
-    string query;
-    bool cont = true;
-    
-    while (cont){
-        cout << "Enter Recognition Sequence [or enter 'q' to quit]: " ;
-        cin >> query;
-        
-        if (query == "q") {
-            cont = false;
-        }
-        else {
-            SequenceMap seqmap_query(query, "");
-            tree.print_node(seqmap_query);
-        }
     }
-}
+    
+    void search_tree(istream &readf);
+    
+private:
+    
+    TreeType tree;
+    
+    int calls_to_insert;
+    
+    TreeType parse_tree(istream &readf, int count = 0);
+    
+};
+
 
 #endif
