@@ -32,25 +32,6 @@ bool SequenceMap::operator< (const SequenceMap &right){
 }
 
 
-bool SequenceMap::operator== (string query){
-    
-    if (this->get_sequence() == query) {
-        return true;
-    }
-    return false;
-}
-
-
-bool SequenceMap::operator== (const SequenceMap &right){
-    
-    if (this->get_sequence() == right.get_sequence()) {
-        return true;
-    }
-    return false;
-}
-
-
-
 bool SequenceMap::operator> (const SequenceMap &right){
     
     if (this->get_sequence() > right.get_sequence()) {
