@@ -77,7 +77,8 @@ void print_seqmap(TreeType &tree){
             cont = false;
         }
         else {
-            tree.print_node(query);
+            SequenceMap seqmap_query("query", "");
+            tree.print_node(seqmap_query);
         }
     }
 }
