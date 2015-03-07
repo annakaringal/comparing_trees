@@ -253,7 +253,8 @@ private:
         }
         else if( t->left != nullptr && t->right != nullptr ) // Two children
         {
-            t->element = findMin( t->right )->element;
+            count ++;
+            t->element = findMin( t->right, count )->element;
             count ++;
             remove( t->element, t->right, count);
         }
@@ -276,6 +277,17 @@ private:
         if( t->left == nullptr )
             return t;
         return findMin( t->left);
+    }
+    
+    
+    BinaryNode * findMin( BinaryNode *t, int &count ) const
+    {
+        if( t == nullptr )
+            return nullptr;
+        if( t->left == nullptr )
+            return t;
+        count ++;
+        return findMin( t->left, count);
     }
     
     /**

@@ -242,7 +242,8 @@ private:
         }
         else if( t->left != nullptr && t->right != nullptr ) // Two children
         {
-            t->element = findMin( t->right )->element;
+            count ++;
+            t->element = findMin( t->right, count)->element;
             count ++;
             remove( t->element, t->right, count );
         }
@@ -280,9 +281,10 @@ private:
     }
     
     /**
-     * Internal method to find the smallest item in a subtree t.
+     * Internal methods to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
+    
     AvlNode * findMin( AvlNode *t ) const
     {
         if( t == nullptr )
@@ -290,6 +292,17 @@ private:
         if( t->left == nullptr )
             return t;
         return findMin( t->left );
+    }
+    
+    AvlNode * findMin( AvlNode *t, int &count ) const
+    {
+        if( t == nullptr )
+            return nullptr;
+        if( t->left == nullptr )
+            return t;
+        
+        count++;
+        return findMin( t->left, count );
     }
     
     /**
