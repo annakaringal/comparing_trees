@@ -32,9 +32,14 @@ public:
     // In case of duplicates: adds other SequenceMap's enzyme acronym to enzyme acronyms
     void merge(SequenceMap &other);
     
+    // Comparison operators
     bool operator< (const SequenceMap &right);
     
     bool operator> (const SequenceMap &right);
+    
+    bool operator== (const SequenceMap &right);
+    
+    bool operator== (const string query);
     
     // Overloaded << operator to print contents of sequence map to console.
     friend ostream &operator << (ostream &os, const SequenceMap &sm);
