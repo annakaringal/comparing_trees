@@ -39,10 +39,12 @@ public:
     
     /**
      * Constructs a new tree parsed from file stream
-     * Prints out number of
+     * Prints out number of recursive calls to insert after processing
+     * entire database
      */
     TreeParser(ifstream &readfile, int &count){
         tree = parse_tree(readfile, count);
+        cout << "Total recursive calls to insert: " << count << endl;
     }
     
     /**
@@ -76,15 +78,37 @@ public:
 
     }
     
-    void search_tree(istream &readf);
+    int get_num_of_nodes(){
+        return num_of_nodes;
+    }
+    
+    int get_avg_depth(){
+        return calculate_avg_depth();
+    }
+    
+    float get_avg_depth_ratio(){
+        return calculate_avg_depth_ratio();
+    }
+    
+    void search(istream &readf);
+    
+    void remove(istream &readf);
     
 private:
     
     TreeType tree;
     
-    int calls_to_insert;
+    int num_of_nodes;
     
     TreeType parse_tree(istream &readf, int count = 0);
+    
+    int calculate_avg_depth();
+    
+    float calculate_avg_depth_ratio();
+    
+    void search_tree(istream &readf);
+    
+    void remove_from_tree(istream &readf);
     
 };
 
