@@ -298,10 +298,12 @@ private:
                 doubleWithLeftChild( t );
             else
                 if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
-                    if( height( t->right->right ) >= height( t->right->left ) )
+                    if ( height( t->right->right ) >= height( t->right->left ) ){
                         rotateWithRightChild( t );
-                    else
+                    }
+                    else {
                         doubleWithRightChild( t );
+                    }
         
         t->height = max( height( t->left ), height( t->right ) ) + 1;
     }
@@ -312,11 +314,25 @@ private:
      */
     LazyAvlNode * findMin( LazyAvlNode *t ) const
     {
-        if( t == nullptr || t->isDeleted )
+        if( t == nullptr )
             return nullptr;
-        if( t->left == nullptr )
+        
+        // Find min in left subtree while at node t
+        LazyAvlNode * Lmin = findMin( t->left);
+        
+        // Min found in left subtree
+        if (Lmin != nullptr) {
+            return Lmin;
+        }
+        
+        // Current node is the minimum and not marked as deleted
+        if (!t->isDeleted) {
             return t;
-        return findMin( t->left );
+        }
+        
+        // Current node is the minimum but is marked as deleted
+        // Look in right subtree
+        return findMin( t->right );
     }
     
     /**
@@ -325,8 +341,8 @@ private:
      */
     LazyAvlNode * findMax( LazyAvlNode *t ) const
     {
-        if( t != nullptr  )
-            while( t->right != nullptr )
+        if( t != nullptr && !t->isDeleted )
+            while( t->right != nullptr  && !t->right->isDeleted)
                 t = t->right;
         return t;
     }

@@ -22,15 +22,17 @@ int main(int argc, const char * argv[]) {
     for (auto x: myints){
         lazy.insert(x);
     }
-    
+    /*
     AvlTree<int> avl;
     cout << "====" << endl;
     
     for (auto x: myints) {
         avl.insert(x);
-    }
+    }*/
     
-    vector<int> removeints = {3,4,3};
+    cout << "Min: " << lazy.findMin() << endl;
+    cout << "Max: " << lazy.findMax() << endl;
+    vector<int> removeints = {1,10};
     
     for (auto x: removeints) {
         cout << "===" << endl;
@@ -38,29 +40,24 @@ int main(int argc, const char * argv[]) {
         lazy.remove(x);
         
     }
+    cout << "Min: " << lazy.findMin() << endl;
+    cout << "Max: " << lazy.findMax() << endl;
+    
+    lazy.remove(2);
+    lazy.remove(9);
+    
+    cout << "Min: " << lazy.findMin() << endl;
+    cout << "Max: " << lazy.findMax() << endl;
+    
+    /*
+    
     
     for (auto x: removeints) {
         cout << "===" << endl;
         cout << "AVL Removing " << x << "..." << endl;
        avl.remove(x);
         
-    }
-   /* for (auto x : myints){
-        cout << "Inserting " << x << "..." << endl;
-        tree.insert(x);
-    }
-    
-    cout << tree.contains(7) << endl;
-    
-    vector<int> removeints = {4,6,8};
-    
-    for (auto x: removeints) {
-        cout << "Removing " << x << "..." << endl;
-        tree.remove(x);
-        
-    }
-    
-    cout << tree.contains(7);*/
+    }*/
     
     /*
     if (argc !=3){
