@@ -229,6 +229,7 @@ private:
     void remove( const Comparable & x, AvlNode * &t, int &count)
     {
         if( t == nullptr )
+            cout << "Item not found. Nothing to delete." << endl;
             return;   // Item not found; do nothing
         
         if( x < t->element ){

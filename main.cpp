@@ -17,35 +17,35 @@ int main(int argc, const char * argv[]) {
     
     vector<int> myints = {1,9,10,3,5,4,6,8,7,2};
     
-    LazyAvlTree<int> tree;
+    LazyAvlTree<int> lazy;
     
-    for (auto x: myints) {
-        tree.insert(x);
+    for (auto x: myints){
+        lazy.insert(x);
     }
-    
-   // tree.AvlTree<int>::printTree();
-    
+    /*
     AvlTree<int> avl;
     cout << "====" << endl;
     
     for (auto x: myints) {
         avl.insert(x);
     }
+    */
     
-    
-    vector<int> removeints = {4,6,8};
+    vector<int> removeints = {3,4,3};
     
     for (auto x: removeints) {
-        cout << "Removing " << x << "..." << endl;
-        tree.remove(x);
+        cout << "===" << endl;
+        cout << "Lazy removing " << x << "..." << endl;
+        lazy.remove(x);
         
     }
-
+/*
     for (auto x: removeints) {
         cout << "Removing " << x << "..." << endl;
        avl.remove(x);
         
     }
+ */
     
    /* for (auto x : myints){
         cout << "Inserting " << x << "..." << endl;

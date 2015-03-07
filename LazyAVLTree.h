@@ -1,5 +1,5 @@
-#ifndef AVL_TREE_H
-#define AVL_TREE_H
+#ifndef LAZYAVL_TREE_H
+#define LAZYAVL_TREE_H
 
 #include "dsexceptions.h"
 #include <algorithm>
@@ -252,8 +252,8 @@ private:
             return find( x, t->right, count );
         }
         else{ // Found a match, return pointer to node
-            if (!t->deleted) {
-                return *t;
+            if (!t->isDeleted) {
+                return t;
             }
             else {
                 return nullptr;
@@ -274,10 +274,11 @@ private:
         // Find element containing x
         LazyAvlNode* found = find(x, t, count);
         if (found == nullptr){
+            return;
             // Do nothing. No node to remove
         }
         else { // Mark node as deleted
-            found->deleted = true;
+            found->isDeleted = true;
         }
     }
     
