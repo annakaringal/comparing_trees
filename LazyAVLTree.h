@@ -236,7 +236,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      * Returns a pointer to the node containing the element
-     * If tree does not contain element, returns nullptr
+     * If tree does not contain element or element is marked as deleted, returns nullptr
      */
     LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count){
         
@@ -274,6 +274,7 @@ private:
         // Find element containing x
         LazyAvlNode* found = find(x, t, count);
         if (found == nullptr){
+            cout << "Item not found. Nothing to delete." << endl;
             return;
             // Do nothing. No node to remove
         }
