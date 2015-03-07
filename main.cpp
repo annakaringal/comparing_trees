@@ -22,14 +22,13 @@ int main(int argc, const char * argv[]) {
     for (auto x: myints){
         lazy.insert(x);
     }
-    /*
+    
     AvlTree<int> avl;
     cout << "====" << endl;
     
     for (auto x: myints) {
         avl.insert(x);
     }
-    */
     
     vector<int> removeints = {3,4,3};
     
@@ -39,14 +38,13 @@ int main(int argc, const char * argv[]) {
         lazy.remove(x);
         
     }
-/*
+    
     for (auto x: removeints) {
-        cout << "Removing " << x << "..." << endl;
+        cout << "===" << endl;
+        cout << "AVL Removing " << x << "..." << endl;
        avl.remove(x);
         
     }
- */
-    
    /* for (auto x : myints){
         cout << "Inserting " << x << "..." << endl;
         tree.insert(x);

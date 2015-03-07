@@ -311,7 +311,7 @@ private:
      */
     LazyAvlNode * findMin( LazyAvlNode *t ) const
     {
-        if( t == nullptr )
+        if( t == nullptr || t->isDeleted )
             return nullptr;
         if( t->left == nullptr )
             return t;
@@ -324,7 +324,7 @@ private:
      */
     LazyAvlNode * findMax( LazyAvlNode *t ) const
     {
-        if( t != nullptr )
+        if( t != nullptr  )
             while( t->right != nullptr )
                 t = t->right;
         return t;
