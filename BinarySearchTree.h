@@ -207,7 +207,7 @@ private:
         if( t == nullptr ){
             t = new BinaryNode{ x, nullptr, nullptr };
         }
-        else if( x < t->element ){
+        else if( t->element > x ){
             count ++;
             insert( x, t->left, count);
         }
@@ -232,7 +232,7 @@ private:
         if( t == nullptr ){
             t = new BinaryNode{ std::move( x ), nullptr, nullptr };
         }
-        else if( x < t->element ){
+        else if( t->element > x ){
             count ++;
             insert( std::move( x ), t->left, count);
         }
@@ -255,7 +255,7 @@ private:
     {
         if( t == nullptr )
             ; // Item not found; do nothing
-        if( x < t->element ){
+        if( t->element > x ){
             count ++;
             remove( x, t->left, count);
         }
@@ -319,7 +319,7 @@ private:
     {
         if( t == nullptr ) // Item not found
             return nullptr;
-        else if( x < t->element ){
+        else if( t->element > x ){
             return find( x, t->left );
         }
         else if( t->element < x ){
@@ -338,7 +338,7 @@ private:
     {
         if( t == nullptr )
             return false;
-        else if( x < t->element ){
+        else if( t->element > x ){
             count++;
             return contains( x, t->left, count );
         }

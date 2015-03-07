@@ -199,7 +199,7 @@ private:
     {
         if( t == nullptr )
             t = new AvlNode{ x, nullptr, nullptr };
-        else if( x < t->element ){
+        else if( t->element > x ){
             count ++;
             insert( x, t->left, count);
         }
@@ -333,12 +333,12 @@ private:
         return t;
     }
     
-    AvlNode * find ( const Comparable & x, AvlNode *t, int &count ) const
+    AvlNode * find ( const Comparable & x, AvlNode *t ) const
     {
         if( t == nullptr )
             return nullptr;
-        else if( x < t->element ){
-            return contains( x, t->left );
+        else if( t->element > x ){
+            return find( x, t->left );
         }
         else if( t->element < x ){
             return find( x, t->right );

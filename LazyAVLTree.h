@@ -208,7 +208,7 @@ private:
     {
         if( t == nullptr )
             t = new LazyAvlNode{ x, nullptr, nullptr };
-        else if( x < t->element ){
+        else if( t->element > x ){
             count ++;
             insert( x, t->left, count);
         }
@@ -233,7 +233,7 @@ private:
     {
         if( t == nullptr )
             t = new LazyAvlNode{ std::move( x ), nullptr, nullptr };
-        else if( x < t->element ){
+        else if( t->element > x ){
             count ++;
             insert( std::move( x ), t->left, count );
         }
@@ -253,12 +253,12 @@ private:
      * Returns a pointer to the node containing the element
      * If tree does not contain element or element is marked as deleted, returns nullptr
      */
-    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count){
+    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count) const{
         
         if (t == nullptr){
             return nullptr;
         }
-        else if( x < t->element ){
+        else if( t->element > x ){
             count ++;
             return find( x, t->left, count );
         }
@@ -275,6 +275,29 @@ private:
             }
         }
 
+    }
+
+    
+    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t ) const{
+        
+        if (t == nullptr){
+            return nullptr;
+        }
+        else if( t->element > x ){
+            return find( x, t->left );
+        }
+        else if( t->element < x ){
+            return find( x, t->right );
+        }
+        else{ // Found a match, return pointer to node
+            if (!t->isDeleted) {
+                return t;
+            }
+            else {
+                return nullptr;
+            }
+        }
+        
     }
 
     

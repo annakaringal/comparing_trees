@@ -64,7 +64,7 @@ TreeType parse_tree(istream &readf) {
 }
 
 template <typename TreeType>
-void get_sequence (TreeType &tree){
+void print_seqmap(TreeType &tree){
     
     string query;
     bool cont = true;

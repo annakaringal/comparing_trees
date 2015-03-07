@@ -32,6 +32,16 @@ bool SequenceMap::operator< (const SequenceMap &right){
 }
 
 
+
+bool SequenceMap::operator> (const SequenceMap &right){
+    
+    if (this->get_sequence() > right.get_sequence()) {
+        return true;
+    }
+    return false;
+}
+
+
 ostream &operator << (ostream &os, const SequenceMap &sm){
     
     os << "SEQUENCE: " << sm.get_sequence() << endl;

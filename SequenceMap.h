@@ -34,6 +34,8 @@ public:
     
     bool operator< (const SequenceMap &right);
     
+    bool operator> (const SequenceMap &right);
+    
     // Overloaded << operator to print contents of sequence map to console.
     friend ostream &operator << (ostream &os, const SequenceMap &sm);
     
