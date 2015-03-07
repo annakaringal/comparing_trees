@@ -341,10 +341,26 @@ private:
      */
     LazyAvlNode * findMax( LazyAvlNode *t ) const
     {
-        if( t != nullptr && !t->isDeleted )
-            while( t->right != nullptr  && !t->right->isDeleted)
-                t = t->right;
-        return t;
+        if( t == nullptr )
+            return nullptr;
+        
+        // Find min in  right subtree while at node t
+        LazyAvlNode * Rmax = findMax( t->right);
+        
+        // Min found in left subtree
+        if (Rmax != nullptr) {
+            return Rmax;
+        }
+        
+        // Current node is the max and not marked as deleted
+        if (!t->isDeleted) {
+            return t;
+        }
+        
+        // Current node is the maximum but is marked as deleted
+        // Look in left subtree
+        return findMax( t->left );
+
     }
     
     
