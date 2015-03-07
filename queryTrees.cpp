@@ -56,8 +56,8 @@ int main(int argc, const char * argv[]) {
                 }
                 
             }
-            catch (...) {
-                cerr << "UNKNOWN ERROR." << endl;
+            catch (exception e) {
+                cerr << "ERROR:" << e.what() << endl;
                 exit(-1);
             }
         }
