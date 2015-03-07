@@ -7,7 +7,7 @@ SequenceMap::SequenceMap(string seq, string acronym):sequence(seq) {
 
 string SequenceMap::get_sequence() const { return sequence; }
 
-set<string> SequenceMap::get_acronyms() const {return enzyme_acronyms; }
+set<string> SequenceMap::get_acronyms() const { return enzyme_acronyms; }
 
 void SequenceMap::merge(SequenceMap &other){
     
@@ -29,4 +29,17 @@ bool SequenceMap::operator< (const SequenceMap &right){
         return true; 
     }
     return false;
+}
+
+
+ostream &operator << (ostream &os, const SequenceMap &sm){
+    
+    os << "SEQUENCE: " << sm.get_sequence() << endl;
+    os << "ACRONYMS: " << endl;
+    for (auto x: sm.get_acronyms()) {
+        os << x << endl;
+    }
+    
+    return os;
+    
 }
