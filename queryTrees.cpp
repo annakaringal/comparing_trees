@@ -39,23 +39,24 @@ int main(int argc, const char * argv[]) {
                 
                 if (tree_type == "BST") {
                     BinarySearchTree<SequenceMap> tree = parse_tree<BinarySearchTree<SequenceMap>>(readf);
+                    
+                    get_sequence(tree);
+                    
                 }
                 else if (tree_type == "AVL"){
                     AvlTree<SequenceMap> tree = parse_tree<AvlTree<SequenceMap>>(readf);
+                    
+                    get_sequence(tree);
                 }
                 else if (tree_type == "LazyAVL") {
                     LazyAvlTree<SequenceMap> tree = parse_tree<LazyAvlTree<SequenceMap>>(readf);
+                    
+                    get_sequence(tree);
+                    
                 }
                 else {
                     throw invalid_argument(tree_type);
                 }
-                
-                // Get user query
-                cout << "Recognition sequence: ";
-                string query_seq;
-                cin >> query_seq;
-                
-                // If sequence is in tree, print all corresponding enzymes
                 
                 
                 

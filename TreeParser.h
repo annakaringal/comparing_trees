@@ -63,4 +63,23 @@ TreeType parse_tree(istream &readf) {
     return tree;
 }
 
+template <typename TreeType>
+void get_sequence (TreeType &tree){
+    
+    string query;
+    bool cont = true;
+    
+    while (cont){
+        cout << "Recognition Sequence [or enter 'q' to quit]: " ;
+        cin >> query;
+        
+        if (query == "q") {
+            cont = false;
+        }
+        else {
+            tree.print_node(query);
+        }
+    }
+}
+
 #endif
