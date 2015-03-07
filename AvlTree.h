@@ -93,7 +93,6 @@ public:
     {
         int count = 0;
         bool c = contains( x, root, count );
-        cout << "Recursive calls to contains: " << count << endl;
         return c;
     }
     
@@ -148,7 +147,6 @@ public:
     {
         int count = 0;
         insert( x, root, count );
-        cout << "Recursive calls to insert: " << count << endl;
     }
     
     /**
@@ -158,7 +156,6 @@ public:
     {
         int count = 0;
         insert( std::move( x ), root, count );
-        cout << "Recursive calls to insert: " << count << endl;
     }
     
     /**
@@ -168,7 +165,6 @@ public:
     {
         int count = 0;
         remove( x, root, count );
-        cout << "Recursive calls to remove: " << count << endl;
     }
     
 private:
