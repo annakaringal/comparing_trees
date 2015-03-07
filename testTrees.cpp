@@ -40,16 +40,18 @@ int main(int argc, const char * argv[]) {
             
             try {
                 
+                int insert_count;
+                
                 if (tree_type == "bst") {
-                    BinarySearchTree<SequenceMap> tree = parse_tree<BinarySearchTree<SequenceMap>>(readf);
+                    TreeParser<BinarySearchTree<SequenceMap>> bst_seq_db(readf, insert_count);
                     
                 }
                 else if (tree_type == "avl"){
-                    AvlTree<SequenceMap> tree = parse_tree<AvlTree<SequenceMap>>(readf);
-                
+                    TreeParser<AvlTree<SequenceMap>> avl_seq_db(readf, insert_count);
+                    
                 }
                 else if (tree_type == "lazyavl") {
-                    LazyAvlTree<SequenceMap> tree = parse_tree<LazyAvlTree<SequenceMap>>(readf);
+                    TreeParser<LazyAvlTree<SequenceMap>> lazy_seq_db(readf, insert_count);
                     
                 }
                 else {
