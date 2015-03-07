@@ -43,17 +43,17 @@ int main(int argc, const char * argv[]) {
                 int insert_count;
                 if (tree_type == "bst") {
                     
-                    TreeParser<BinarySearchTree<SequenceMap>> bst_seq_db(readf, insert_count);
+                    TreeParser<BinarySearchTree<SequenceMap>> bst_seq_db(readf);
                     bst_seq_db.print_seqmap();
                     
                 }
                 else if (tree_type == "avl"){
                     
-                    TreeParser<AvlTree<SequenceMap>> avl_seq_db(readf, insert_count);
+                    TreeParser<AvlTree<SequenceMap>> avl_seq_db(readf);
                     avl_seq_db.print_seqmap();
                 }
                 else if (tree_type == "lazyavl") {
-                    TreeParser<LazyAvlTree<SequenceMap>> lazy_seq_db(readf, insert_count);
+                    TreeParser<LazyAvlTree<SequenceMap>> lazy_seq_db(readf);
                     lazy_seq_db.print_seqmap();
                     
                 }
