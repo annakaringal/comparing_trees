@@ -44,6 +44,48 @@ public:
         remove( x, root, count );
         cout << "Recursive calls to remove: " << count << endl;
     }
+    
+    /**
+     * Insert x into the tree; duplicates are ignored.
+     */
+    void insert( const Comparable & x )
+    {
+        int count = 0;
+        insert( x, root, count );
+        cout << "Recursive calls to insert: " << count << endl;
+    }
+    
+    /**
+     * Insert x into the tree; duplicates are ignored.
+     */
+    void insert( Comparable && x )
+    {
+        int count = 0;
+        insert( std::move( x ), root, count );
+        cout << "Recursive calls to insert: " << count << endl;
+    }
+    
+    bool contains( const Comparable & x ) const
+    {
+        int count = 0;
+        bool c = contains( x, root, count );
+        cout << "Recursive calls to contains: " << count << endl;
+        return c;
+    }
+    
+    bool isEmpty( ) const
+    {
+        return root == nullptr;
+    }
+    
+    void printTree()
+    {
+            if( isEmpty( ) )
+                cout << "Empty tree" << endl;
+            else
+                printTree( root );
+        
+    }
 
 private:
     struct LazyAvlNode {
@@ -65,23 +107,39 @@ private:
     
     static const int ALLOWED_IMBALANCE = 1;
     
-    //void insert(const Comparable & x, AvlNode * & t, int &count);
+    // Insert functions
     
-    //void insert (Comparable && x, AvlNode * & t, int &count);
+    void insert(const Comparable &x, LazyAvlNode *&t, int &count);
+    
+    void insert (Comparable &&x, LazyAvlNode *&t, int &count);
+    
+    // Find functions
     
     LazyAvlNode * find ( const Comparable & x, LazyAvlNode *t, int &count );
     
     bool contains ( const Comparable & x, LazyAvlNode *t, int &count ) const;
     
+    // Remove functions
+    
     void remove (const Comparable &x, LazyAvlNode *&t, int &count);
+    
+    // Balance functions
     
     void balance (LazyAvlNode *&t);
     
+    void rotateWithLeftChild( LazyAvlNode * & k2 );
+    
+    void rotateWithRightChild( LazyAvlNode * & k1 );
+    
+    void doubleWithLeftChild( LazyAvlNode * & k3 );
+    
+    void doubleWithRightChild( LazyAvlNode * & k1 );
+
+    
+    // Output functions
+    
     void printTree (LazyAvlNode *t) const;    
     
-    
-    
-
 };
 
 #endif
