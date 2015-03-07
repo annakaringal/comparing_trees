@@ -106,6 +106,21 @@ public:
         return c;
     }
     
+    
+    /**
+     * Prints contents of the node containing element x
+     */
+    void print_node (const Comparable & x ) const{
+        LazyAvlNode* found = find (x, root);
+        if (found == nullptr) {
+            cout << "Element not found in tree." << endl;
+        }
+        else {
+            cout << found->element << endl;
+        }
+    }
+
+    
     /**
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
