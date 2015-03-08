@@ -304,7 +304,6 @@ private:
         // Find element containing x
         LazyAvlNode* found = find(x, t, count);
         if (found == nullptr){
-            cout << "Item not found. Nothing to delete." << endl;
             return false;
             // Do nothing. No node to remove
         }
