@@ -72,6 +72,29 @@ void search_from_file (string filename, TreeType &tree) {
 template <typename TreeType>
 void remove_from_file(string filename, TreeType &tree) {
     
+    ifstream readf;
+    readf.open(filename.c_str());
+    
+    if (readf.fail()){
+        cerr << "ERROR: Invalid file. Please check your file name and try again." << endl;
+        exit(-1);
+    }
+    
+    int success = 0;
+    int recursive_calls = 0;
+    string query;
+    
+    if (readf.is_open()) {
+        while (getline(readf,query)){
+            if (tree.remove(query,recursive_calls)){
+                success ++;
+            }
+        }
+    }
+    
+    cout << "Successful removes: " << success << endl;
+    cout << "Recursive calls to remove():  << " << recursive_calls << endl;
+
 }
 
 
