@@ -304,7 +304,7 @@ private:
         if( t == nullptr ){
             return false;   // Item not found; do nothing
         }
-        if( x < t->element ){
+        if( t->element > x  ){
             count++;
             return remove( x, t->left, count );
         }
