@@ -39,6 +39,10 @@ int main(int argc, const char * argv[]) {
         if (readf.is_open()) {
             
             try {
+                
+                // Generate trees based on command line argument
+                // Prompt user for recognition sequence queries and print
+                // enzyme acronyms for valid sequences
                 if (tree_type == "bst") {
                     BinarySearchTree<SequenceMap> bst_tree = parse_tree<BinarySearchTree<SequenceMap>>(readf);
                     print_seqmap(bst_tree);
