@@ -35,7 +35,7 @@ void run_test_routine(TreeType &tree, string filename){
     get_tree_characteristics(tree);
     
     cout << "--------------------" << endl;
-    cout << "..Searching tree for sequences in file...\n" << endl;
+    cout << "...Searching tree for sequences in file...\n" << endl;
     // Search new tree for sequences in file
     search_from_file(filename, tree);
     
@@ -52,11 +52,11 @@ void get_tree_characteristics(TreeType &tree) {
         
         // Compute and print average depth of tree
         float avg_depth = tree.internal_path_length() / n;
-        cout << "Average Depth: " << setprecision(2) << avg_depth << endl;
+        cout << "Average Depth: " << avg_depth << endl;
         
         if (n > 1) {
             // Computes and prints ratio of avg depth to log n
-            cout << "Ratio of Avg Depth: " << setprecision(3) << avg_depth/log2(n) << endl;
+            cout << "Ratio of Avg Depth: " << avg_depth/log2(n) << endl;
         }
         else {
             // Only 1 node
@@ -95,7 +95,7 @@ void search_from_file (string filename, TreeType &tree) {
     }
     
     cout << "Successful queries: " << success << endl;
-    cout << "Recursive calls to contains():  << " << recursive_calls << endl;
+    cout << "Recursive calls to contains(): " << recursive_calls << endl;
     
 }
 
@@ -132,7 +132,7 @@ void remove_alternate_sequences(string filename, TreeType &tree) {
     }
     
     cout << "Successful removes: " << success << endl;
-    cout << "Recursive calls to remove():  << " << recursive_calls << endl;
+    cout << "Recursive calls to remove(): " << recursive_calls << endl;
 
 }
 #endif
