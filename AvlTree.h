@@ -193,6 +193,11 @@ public:
         return count_nodes(root);
     }
     
+    int internal_path_length() {
+        return total_depth(root, 0);
+    }
+    
+    
 private:
     
 /******************************************************************************
@@ -418,6 +423,10 @@ private:
         return t == nullptr ? -1 : t->height;
     }
     
+    
+    /**
+     * Recursively counts number of nodes in tree
+     */
     int count_nodes ( AvlNode *t ) const{
         if (t == nullptr) {
             return 0;
@@ -428,6 +437,22 @@ private:
         else {
             return 1 + count_nodes(t->left) + count_nodes(t->right);
         }
+    }
+    
+    
+    /**
+     * Returns sum of the depth of all nodes in tree rooted at t
+     */
+    
+    int total_depth( AvlNode *t, int& totald) {
+        
+        if (t == nullptr) {
+            return totald-1;
+        }
+        else {
+            return total_depth(t->left, totald+1) + total_depth(t->right, totald+1);
+        }
+        
     }
     
     int max( int lhs, int rhs ) const
