@@ -20,10 +20,11 @@
 
 using namespace std;
 
-/* 
- Parses file and returns a tree of type TreeType containing data in file
-    Pre-conditions: readf is an open, initialized file stream for a valid data 
-                    file. 
+/**
+ * Parses file and returns a tree of type TreeType containing data in file
+ * Counts number of times insert() function is recursively called on the tree
+ * Pre-conditions: readf is an open, initialized file stream for a valid data
+ * file.
  */
 
 template <typename TreeType>
@@ -64,8 +65,59 @@ TreeType parse_tree(istream &readf, int &count) {
     return tree;
 }
 
+/**
+ * Parses file and returns a tree of type TreeType containing data in file
+ * Pre-conditions: readf is an open, initialized file stream for a valid data
+ * file.
+ */
+
+template <typename TreeType>
+TreeType parse_tree(istream &readf) {
+    
+    TreeType tree;
+    string line;
+    
+    int count = 0;
+    // For each line in file
+    while (getline(readf, line)) {
+        
+        istringstream seqmapss(line);
+        size_t last_letter = line.length() - 1;
+        
+        if (line[last_letter] == '/' && line[last_letter-1] == '/') {
+            
+            // Split line into acronym and recognition sequences
+            string enzyme_acronym;
+            string all_seqs;
+            getline(seqmapss, enzyme_acronym, '/');
+            getline(seqmapss, all_seqs, '\n');
+            
+            // Get the next recognition sequence
+            istringstream seqss(all_seqs);
+            string s;
+            while (getline(seqss, s, '/')){
+                if (!s.empty()){
+                    SequenceMap smap(s, enzyme_acronym);
+                    tree.insert(smap, count);
+                }
+            }
+        }
+        else {
+            //  Header: Line doesn't end in double slash. Do nothing.
+        }
+    }
+    
+    return tree;
+}
 
 
+
+/**
+ * Prompts user for recognition sequence, searches tree for given sequence
+ * If sequence is found in tree, prints out a list of enzyme acronyms for that
+ * sequence
+ * Pre-condition: TreeType &tree is an initialized, non-empty tree of SequenceMaps
+ */
 template <typename TreeType>
 void print_seqmap(TreeType &tree){
     
@@ -86,12 +138,4 @@ void print_seqmap(TreeType &tree){
     }
     
 }
-
-template <typename TreeType>
-void test_tree(TreeType &tree) {
- 
-    
-    
-}
-
 #endif
