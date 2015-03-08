@@ -39,18 +39,17 @@ int main(int argc, const char * argv[]) {
         if (readf.is_open()) {
             
             try {
-                
                 if (tree_type == "bst") {
-                    TreeParser<BinarySearchTree<SequenceMap>> bst_seq_db(readf);
-                    bst_seq_db.print_seqmap();
+                    BinarySearchTree<SequenceMap> bst_tree = parse_tree<BinarySearchTree<SequenceMap>>(readf);
+                    print_seqmap(bst_tree);
                 }
                 else if (tree_type == "avl"){
-                    TreeParser<AvlTree<SequenceMap>> avl_seq_db(readf);
-                    avl_seq_db.print_seqmap();
+                    AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(readf);
+                    print_seqmap(avl_tree);
                 }
                 else if (tree_type == "lazyavl") {
-                    TreeParser<LazyAvlTree<SequenceMap>> lazy_seq_db(readf);
-                    lazy_seq_db.print_seqmap();
+                    LazyAvlTree<SequenceMap> lazy_tree = parse_tree<LazyAvlTree<SequenceMap>>(readf);
+                    print_seqmap(lazy_tree);
                 }
                 else {
                     throw invalid_argument(tree_type);
