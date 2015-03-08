@@ -106,12 +106,11 @@ public:
     /**
      * Returns true if x is found in the tree.
      */
-    bool contains( const Comparable & x ) const
+    bool contains( const Comparable & x, int& count) const
     {
-        int count = 0;
-        bool c = contains( x, root, count );
-        return c;
+        return contains( x, root, count );
     }
+    
     
     
 /******************************************************************************
