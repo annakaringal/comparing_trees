@@ -175,10 +175,9 @@ public:
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
-    void remove( const Comparable & x )
+    bool remove( const Comparable & x, int &count)
     {
-        int count = 0;
-        remove( x, root, count );
+        return remove( x, root, count );
         
     }
     
@@ -299,17 +298,18 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void remove( const Comparable & x, LazyAvlNode * & t, int &count)
+    bool remove( const Comparable & x, LazyAvlNode * & t, int &count)
     {
         // Find element containing x
         LazyAvlNode* found = find(x, t, count);
         if (found == nullptr){
             cout << "Item not found. Nothing to delete." << endl;
-            return;
+            return false;
             // Do nothing. No node to remove
         }
         else { // Mark node as deleted
             found->isDeleted = true;
+            return true;
         }
     }
 

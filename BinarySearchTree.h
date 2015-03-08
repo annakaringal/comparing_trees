@@ -174,11 +174,11 @@ public:
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
-    void remove( const Comparable & x )
+    bool remove( const Comparable & x, int& count )
     {
-        int count = 0;
-        remove( x, root, count);
+        return remove( x, root, count );
     }
+
     
 /******************************************************************************
      PUBLIC FUNCTIONS TO GET TREE CHARACTERISTICS
@@ -293,31 +293,32 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-     void remove( const Comparable & x, BinaryNode * & t, int & count)
+     bool remove( const Comparable & x, BinaryNode * & t, int & count)
     {
         if( t == nullptr )
-            ; // Item not found; do nothing
+            return false; // Item not found; return false
         if( t->element > x ){
             count ++;
-            remove( x, t->left, count);
+            return remove( x, t->left, count);
         }
         else if( t->element < x )
         {
             count ++;
-            remove( x, t->right, count);
+            return remove( x, t->right, count);
         }
         else if( t->left != nullptr && t->right != nullptr ) // Two children
         {
             count ++;
             t->element = findMin( t->right, count )->element;
             count ++;
-            remove( t->element, t->right, count);
+            return remove( t->element, t->right, count);
         }
         else
         {
             BinaryNode *oldNode = t;
             t = ( t->left != nullptr ) ? t->left : t->right;
             delete oldNode;
+            return true;
         }
     }
     
