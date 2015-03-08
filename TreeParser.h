@@ -4,7 +4,7 @@
  Created on:        February 21, 2015
  Description:       
  
- Last Modified:     March 7, 2015
+ Last Modified:     March 8, 2015
  
  *****************************************************************************/
 
@@ -25,92 +25,73 @@ using namespace std;
     Pre-conditions: readf is an open, initialized file stream for a valid data 
                     file. 
  */
-template <typename TreeType>
-class TreeParser{
-    
-public:
-    
-    /**
-     * Constructs a new tree parsed from file stream
-     */
-    TreeParser(ifstream &readfile){
-        tree = parse_tree(readfile);
-    }
-    
-    /**
-     * Constructs a new tree parsed from file stream
-     * Prints out number of recursive calls to insert after processing
-     * entire database
-     */
-    TreeParser(ifstream &readfile, int &count){
-        tree = parse_tree(readfile, count);
-        cout << "Total recursive calls to insert: " << count << endl;
-    }
-    
-    /**
-     * Copy constructor
-     */
-    TreeParser( const TreeParser &tp ){
-        tree = tp.tree;
-    }
-    
-    /**
-     * Gets recognition sequence query from user
-     * If query is a sequence in the tree, prints all enzyme acronyms for sequence
-     */
-    void print_seqmap(){
-        
-        string query;
-        bool cont = true;
-        
-        while (cont){
-            cout << "Enter Recognition Sequence [or enter 'q' to quit]: " ;
-            cin >> query;
-            
-            if (query == "q") {
-                cont = false;
-            }
-            else {
-                SequenceMap seqmap_query(query, "");
-                tree.print_node(seqmap_query);
-            }
-        }
 
-    }
-    
-    int get_num_of_nodes(){
-        return num_of_nodes;
-    }
-    
-    int get_avg_depth(){
-        return calculate_avg_depth();
-    }
-    
-    float get_avg_depth_ratio(){
-        return calculate_avg_depth_ratio();
-    }
-    
-    void search(istream &readf);
-    
-    void remove(istream &readf);
-    
-private:
+template <typename TreeType>
+TreeType parse_tree(istream &readf, int &count) {
     
     TreeType tree;
+    string line;
     
-    int num_of_nodes;
+    // For each line in file
+    while (getline(readf, line)) {
+        
+        istringstream seqmapss(line);
+        size_t last_letter = line.length() - 1;
+        
+        if (line[last_letter] == '/' && line[last_letter-1] == '/') {
+            
+            // Split line into acronym and recognition sequences
+            string enzyme_acronym;
+            string all_seqs;
+            getline(seqmapss, enzyme_acronym, '/');
+            getline(seqmapss, all_seqs, '\n');
+            
+            // Get the next recognition sequence
+            istringstream seqss(all_seqs);
+            string s;
+            while (getline(seqss, s, '/')){
+                if (!s.empty()){
+                    SequenceMap smap(s, enzyme_acronym);
+                    tree.insert(smap, count);
+                }
+            }
+        }
+        else {
+            //  Header: Line doesn't end in double slash. Do nothing.
+        }
+    }
     
-    TreeType parse_tree(istream &readf, int count = 0);
-    
-    int calculate_avg_depth();
-    
-    float calculate_avg_depth_ratio();
-    
-    void search_tree(istream &readf);
-    
-    void remove_from_tree(istream &readf);
-    
-};
+    return tree;
+}
 
+
+
+template <typename TreeType>
+void print_seqmap(TreeType &tree){
+    
+    string query;
+    bool cont = true;
+    
+    while (cont){
+        cout << "Enter Recognition Sequence [or enter 'q' to quit]: " ;
+        cin >> query;
+        
+        if (query == "q") {
+            cont = false;
+        }
+        else {
+            SequenceMap seqmap_query(query, "");
+            tree.print_node(seqmap_query);
+        }
+    }
+    
+}
+
+template <typename TreeType>
+void test_tree(TreeType &tree) {
+ 
+    
+    
+}
 
 #endif
