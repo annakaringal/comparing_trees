@@ -48,7 +48,12 @@ int main(int argc, const char * argv[]) {
                 
                 if (tree_type == "bst") {
                     BinarySearchTree<SequenceMap> bst_tree = parse_tree<BinarySearchTree<SequenceMap>>(parsef, insert_count);
-                    cout << "Binary Search Tree Created." << endl;
+                    cout << "\nBinary Search Tree Created..." << endl;
+                    
+                    cout << "===============================" << endl;
+                    cout << "BINARY SEARCH TREE TEST RESULTS" << endl;
+                    cout << "===============================" << endl;
+                    
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
                     
                     run_test_routine(bst_tree, seq_query_file);
@@ -56,17 +61,27 @@ int main(int argc, const char * argv[]) {
                 }
                 else if (tree_type == "avl"){
                     AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(parsef, insert_count);
-                    cout << "AVL Tree Created." << endl;
-                    cout << "Total number of recursive calls to insert: " << insert_count << endl;
+                    cout << "\nAVL Tree Created..." << endl;
                     
+                    cout << "===============================" << endl;
+                    cout << "AVL TREE TEST RESULTS" << endl;
+                    cout << "===============================" << endl;
+                    
+                    cout << "Total number of recursive calls to insert: " << insert_count << endl;
+
                     run_test_routine(avl_tree, seq_query_file);
 
                 }
                 else if (tree_type == "lazyavl") {
                     LazyAvlTree<SequenceMap> lazy_tree = parse_tree<LazyAvlTree<SequenceMap>>(parsef, insert_count);
-                    cout << "AVL Tree with Lazy Deletion Created." << endl;
-                    cout << "Total number of recursive calls to insert: " << insert_count << endl;
+                    cout << "\nAVL Tree with Lazy Deletion Created..." << endl;
                     
+                    cout << "===============================" << endl;
+                    cout << "LAZY AVL TREE TEST RESULTS" << endl;
+                    cout << "===============================" << endl;
+                    
+                    cout << "Total number of recursive calls to insert: " << insert_count << endl;
+
                     run_test_routine(lazy_tree, seq_query_file);
 
                 }
@@ -76,8 +91,8 @@ int main(int argc, const char * argv[]) {
                 }
                 
             }
-            catch (exception e) {
-                cerr << "ERROR:" << e.what() << endl;
+            catch (invalid_argument invalid_tree_type) {
+                cerr << "ERROR: Invalid tree type specified - " << invalid_tree_type.what() << endl;
                 exit(-1);
             }
         }

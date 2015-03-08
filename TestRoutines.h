@@ -18,15 +18,24 @@ void run_test_routine(TreeType &tree, string filename){
     // Print number of nodes, avg depth & avg depth ratio
     get_tree_characteristics(tree);
     
+    cout << "--------------------" << endl;
+    cout << "..Searching tree for sequences in file...\n" << endl;
     // Search tree for sequences in a given query file
     search_from_file(filename, tree);
     
+    cout << "--------------------" << endl;
+    cout << "...Removing every other sequence from tree...\n" << endl;
+
     // Remove every other sequence in query file from tree
     remove_alternate_sequences(filename, tree);
     
+    
+    cout << "--------------------" << endl;
     // Print number of nodes, avg depth & avg depth ratio for new tree
     get_tree_characteristics(tree);
     
+    cout << "--------------------" << endl;
+    cout << "..Searching tree for sequences in file...\n" << endl;
     // Search new tree for sequences in file
     search_from_file(filename, tree);
     
