@@ -44,32 +44,30 @@ int main(int argc, const char * argv[]) {
                 
                 int insert_count = 0;
                 
+                // Create tree from file and run test routine
+                
                 if (tree_type == "bst") {
                     BinarySearchTree<SequenceMap> bst_tree = parse_tree<BinarySearchTree<SequenceMap>>(parsef, insert_count);
                     cout << "Binary Search Tree Created." << endl;
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
-                    get_tree_characteristics(bst_tree);
-                    search_from_file(seq_query_file, bst_tree);
-                    string alt_query_file = get_alternate_sequences(seq_query_file );
-                    remove_from_file(alt_query_file, bst_tree);
-                    get_tree_characteristics(bst_tree);
                     
+                    run_test_routine(bst_tree, seq_query_file);
                     
                 }
                 else if (tree_type == "avl"){
                     AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(parsef, insert_count);
                     cout << "AVL Tree Created." << endl;
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
-                    get_tree_characteristics(avl_tree);
-                    search_from_file(seq_query_file, avl_tree);
+                    
+                    run_test_routine(avl_tree, seq_query_file);
 
                 }
                 else if (tree_type == "lazyavl") {
                     LazyAvlTree<SequenceMap> lazy_tree = parse_tree<LazyAvlTree<SequenceMap>>(parsef, insert_count);
                     cout << "AVL Tree with Lazy Deletion Created." << endl;
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
-                    get_tree_characteristics(lazy_tree);
-                    search_from_file(seq_query_file, lazy_tree);
+                    
+                    run_test_routine(lazy_tree, seq_query_file);
 
                 }
 

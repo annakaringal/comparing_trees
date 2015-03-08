@@ -13,6 +13,26 @@
 using namespace std;
 
 template <typename TreeType>
+void run_test_routine(TreeType &tree, string filename){
+    
+    // Print number of nodes, avg depth & avg depth ratio
+    get_tree_characteristics(tree);
+    
+    // Search tree for sequences in a given query file
+    search_from_file(filename, tree);
+    
+    // Remove every other sequence in query file from tree
+    remove_alternate_sequences(filename, tree);
+    
+    // Print number of nodes, avg depth & avg depth ratio for new tree
+    get_tree_characteristics(tree);
+    
+    // Search new tree for sequences in file
+    search_from_file(filename, tree);
+    
+}
+
+template <typename TreeType>
 void get_tree_characteristics(TreeType &tree) {
     
     if (!tree.isEmpty()) {
@@ -71,7 +91,7 @@ void search_from_file (string filename, TreeType &tree) {
 }
 
 template <typename TreeType>
-void remove_from_file(string filename, TreeType &tree) {
+void remove_alternate_sequences(string filename, TreeType &tree) {
     
     ifstream readf;
     readf.open(filename.c_str());
@@ -83,13 +103,21 @@ void remove_from_file(string filename, TreeType &tree) {
     
     int success = 0;
     int recursive_calls = 0;
+    int query_count = 0;
     string query;
+    
     if (readf.is_open()) {
+        
+        // Get each sequence in the file
         while (getline(readf,query)){
+            query_count ++;
             
-            SequenceMap q(query);
-            if (tree.remove(q,recursive_calls)){
-                success ++;
+            // Only remove every other query sequence
+            if (query_count % 2 == 0 ) {
+                SequenceMap q(query);
+                if (tree.remove(q,recursive_calls)){
+                    success ++;
+                }
             }
         }
     }
@@ -98,9 +126,4 @@ void remove_from_file(string filename, TreeType &tree) {
     cout << "Recursive calls to remove():  << " << recursive_calls << endl;
 
 }
-
-string get_alternate_sequences (string filename){
-    
-}
-
 #endif
