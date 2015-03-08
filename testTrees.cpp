@@ -40,20 +40,29 @@ int main(int argc, const char * argv[]) {
             
             try {
                 
-                int insert_count;
+                int insert_count = 0;
                 
                 if (tree_type == "bst") {
-                    TreeParser<BinarySearchTree<SequenceMap>> bst_seq_db(readf, insert_count);
-                    
+                    BinarySearchTree<SequenceMap> bst_tree = parse_tree<BinarySearchTree<SequenceMap>>(readf, insert_count);
+                    cout << "Binary Search Tree Created." << endl;
+                    cout << "Total number of recursive calls to insert: " << insert_count << endl;
+                    test_tree(bst_tree);
                 }
                 else if (tree_type == "avl"){
-                    TreeParser<AvlTree<SequenceMap>> avl_seq_db(readf, insert_count);
-                    
+                    AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(readf, insert_count);
+                    cout << "AVL Tree Created." << endl;
+                    cout << "Total number of recursive calls to insert: " << insert_count << endl;
+                    test_tree(avl_tree);
+
                 }
                 else if (tree_type == "lazyavl") {
-                    TreeParser<LazyAvlTree<SequenceMap>> lazy_seq_db(readf, insert_count);
-                    
+                    LazyAvlTree<SequenceMap> lazy_tree = parse_tree<LazyAvlTree<SequenceMap>>(readf, insert_count);
+                    cout << "AVL Tree with Lazy Deletion Created." << endl;
+                    cout << "Total number of recursive calls to insert: " << insert_count << endl;
+                    test_tree(lazy_tree);
+
                 }
+
                 else {
                     throw invalid_argument(tree_type);
                 }
