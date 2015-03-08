@@ -25,6 +25,10 @@ template <typename Comparable>
 class BinarySearchTree
 {
 public:
+    
+/******************************************************************************
+     PUBLIC CONSTRUCTORS, DESTRUCTORS, MOVERS
+******************************************************************************/
     BinarySearchTree( ) : root{ nullptr }
     {
     }
@@ -72,6 +76,9 @@ public:
         return *this;
     }
     
+/******************************************************************************
+     PUBLIC FIND FUNCTIONS
+******************************************************************************/
     
     /**
      * Find the smallest item in the tree.
@@ -95,6 +102,22 @@ public:
         return findMax( root )->element;
     }
     
+    
+    /**
+     * Returns true if x is found in the tree.
+     */
+    bool contains( const Comparable & x ) const
+    {
+        int count = 0;
+        bool c = contains( x, root, count );
+        return c;
+    }
+    
+    
+/******************************************************************************
+     PUBLIC PRINT FUNCTIONS
+******************************************************************************/
+    
     /**
      * Prints contents of the node containing element x
      */
@@ -109,25 +132,6 @@ public:
     }
     
     /**
-     * Returns true if x is found in the tree.
-     */
-    bool contains( const Comparable & x ) const
-    {
-        int count = 0;
-        bool c = contains( x, root, count );
-        return c;
-    }
-    
-    /**
-     * Test if the tree is logically empty.
-     * Return true if empty, false otherwise.
-     */
-    bool isEmpty( ) const
-    {
-        return root == nullptr;
-    }
-    
-    /**
      * Print the tree contents in sorted order.
      */
     void printTree( ostream & out = cout ) const
@@ -138,6 +142,10 @@ public:
             printTree( root, out );
     }
     
+/******************************************************************************
+     PUBLIC INSERT/REMOVE FUNCTIONS
+******************************************************************************/
+   
     /**
      * Make the tree logically empty.
      */
@@ -173,8 +181,32 @@ public:
         remove( x, root, count);
     }
     
+/******************************************************************************
+     PUBLIC FUNCTIONS TO GET TREE CHARACTERISTICS
+******************************************************************************/
+    
+    /**
+     * Returns number of nodes in the tree
+     */
+    int num_of_nodes () {
+        return count_nodes(root);
+    }
+    
+    /**
+     * Test if the tree is logically empty.
+     * Return true if empty, false otherwise.
+     */
+    bool isEmpty( ) const
+    {
+        return root == nullptr;
+    }
+    
     
 private:
+    
+/******************************************************************************
+     Member Data
+******************************************************************************/
     struct BinaryNode
     {
         Comparable element;
@@ -191,6 +223,9 @@ private:
     BinaryNode *root;
     
     
+/******************************************************************************
+     Insert Functions
+******************************************************************************/
     /**
      * Internal method to insert into a subtree.
      * x is the item to insert.
@@ -239,6 +274,10 @@ private:
         }
     }
     
+/******************************************************************************
+     Remove Functions
+******************************************************************************/
+    
     /**
      * Internal method to remove from a subtree.
      * x is the item to remove.
@@ -272,6 +311,10 @@ private:
             delete oldNode;
         }
     }
+    
+/******************************************************************************
+     Find Functions
+******************************************************************************/
     
     /**
      * Internal method to find the smallest item in a subtree t.
@@ -358,21 +401,11 @@ private:
      return false;   // No match
      }
      *****************************************************/
+
     
-    /**
-     * Internal method to make subtree empty.
-     */
-    void makeEmpty( BinaryNode * & t )
-    {
-        if( t != nullptr )
-        {
-            makeEmpty( t->left );
-            makeEmpty( t->right );
-            delete t;
-        }
-        t = nullptr;
-    }
-    
+/******************************************************************************
+     Functions to calculate characteristics of tree
+******************************************************************************/
     
     int count_nodes ( BinaryNode *t ) const{
         if (t == nullptr) {
@@ -386,6 +419,9 @@ private:
         }
     }
 
+/******************************************************************************
+     Print to console functions
+******************************************************************************/
     
     /**
      * Internal method to print a subtree rooted at t in sorted order.
@@ -400,6 +436,25 @@ private:
         }
     }
     
+    
+/******************************************************************************
+     Internal Constructor/Destructor Helper Functions
+******************************************************************************/
+    
+    /**
+     * Internal method to make subtree empty.
+     */
+    void makeEmpty( BinaryNode * & t )
+    {
+        if( t != nullptr )
+        {
+            makeEmpty( t->left );
+            makeEmpty( t->right );
+            delete t;
+        }
+        t = nullptr;
+    }
+
     /**
      * Internal method to clone subtree.
      */
