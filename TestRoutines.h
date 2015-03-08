@@ -58,7 +58,8 @@ void search_from_file (string filename, TreeType &tree) {
     
     if (readf.is_open()) {
         while (getline(readf,query)){
-            if (tree.contains(query, recursive_calls)){
+            SequenceMap q(query);
+            if (tree.contains(q, recursive_calls)){
                 success ++;
             }
         }
@@ -83,10 +84,11 @@ void remove_from_file(string filename, TreeType &tree) {
     int success = 0;
     int recursive_calls = 0;
     string query;
-    
     if (readf.is_open()) {
         while (getline(readf,query)){
-            if (tree.remove(query,recursive_calls)){
+            
+            SequenceMap q(query);
+            if (tree.remove(q,recursive_calls)){
                 success ++;
             }
         }
@@ -97,5 +99,8 @@ void remove_from_file(string filename, TreeType &tree) {
 
 }
 
+string get_alternate_sequences (string filename){
+    
+}
 
 #endif

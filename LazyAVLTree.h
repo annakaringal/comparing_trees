@@ -207,7 +207,8 @@ public:
      * tree
      */
     int internal_path_length() {
-        return total_depth(root, 0);
+        int start = 0;
+        return total_depth(root, start);
     }
 
     
@@ -479,7 +480,8 @@ private:
             return totald-1;
         }
         else {
-            return total_depth(t->left, totald+1) + total_depth(t->right, totald+1);
+            totald++;
+            return total_depth(t->left, totald) + total_depth(t->right, totald);
         }
         
     }

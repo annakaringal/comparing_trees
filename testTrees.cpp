@@ -50,6 +50,11 @@ int main(int argc, const char * argv[]) {
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
                     get_tree_characteristics(bst_tree);
                     search_from_file(seq_query_file, bst_tree);
+                    string alt_query_file = get_alternate_sequences(seq_query_file );
+                    remove_from_file(alt_query_file, bst_tree);
+                    get_tree_characteristics(bst_tree);
+                    
+                    
                 }
                 else if (tree_type == "avl"){
                     AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(parsef, insert_count);
@@ -79,7 +84,7 @@ int main(int argc, const char * argv[]) {
             }
         }
         
-        readf.close();
+        parsef.close();
         
     }
     

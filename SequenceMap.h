@@ -24,7 +24,7 @@ private:
     
 public:
     
-    SequenceMap(string seq, string acronym);
+    SequenceMap(string seq, string acronym="");
     
     string get_sequence() const;
     set<string> get_acronyms() const;
