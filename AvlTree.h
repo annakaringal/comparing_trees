@@ -285,10 +285,12 @@ private:
                 doubleWithLeftChild( t );
             else
                 if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
-                    if( height( t->right->right ) >= height( t->right->left ) )
+                    if( height( t->right->right ) >= height( t->right->left ) ){
                         rotateWithRightChild( t );
-                    else
+                    }
+                    else{
                         doubleWithRightChild( t );
+                    }
         
         t->height = max( height( t->left ), height( t->right ) ) + 1;
     }
@@ -426,6 +428,18 @@ private:
     int height( AvlNode *t ) const
     {
         return t == nullptr ? -1 : t->height;
+    }
+    
+    int count_nodes ( AvlNode *t ) const{
+        if (t == nullptr) {
+            return 0;
+        }
+        if (t->left == nullptr && t->right == nullptr) {
+            return 1;
+        }
+        else {
+            return 1 + count_nodes(t->left) + count_nodes(t->right);
+        }
     }
     
     int max( int lhs, int rhs ) const
