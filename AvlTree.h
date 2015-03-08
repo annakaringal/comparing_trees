@@ -26,6 +26,11 @@ template <typename Comparable>
 class AvlTree
 {
 public:
+    
+    
+/******************************************************************************
+     PUBLIC CONSTRUCTORS, DESTRUCTORS, MOVERS
+******************************************************************************/
     AvlTree( ) : root{ nullptr }
     { }
     
@@ -64,6 +69,11 @@ public:
         return *this;
     }
     
+    
+/******************************************************************************
+     PUBLIC FIND FUNCTIONS
+ ******************************************************************************/
+    
     /**
      * Find the smallest item in the tree.
      * Throw UnderflowException if empty.
@@ -96,16 +106,10 @@ public:
         return c;
     }
     
-    /**
-     * Test if the tree is logically empty.
-     * Return true if empty, false otherwise.
-     */
-    bool isEmpty( ) const
-    {
-        return root == nullptr;
-    }
     
-    
+/******************************************************************************
+     PUBLIC PRINT FUNCTIONS
+******************************************************************************/
     /**
      * Prints contents of the node containing element x
      */
@@ -119,8 +123,6 @@ public:
         }
     }
     
-
-    
     /**
      * Print the tree contents in sorted order.
      */
@@ -131,6 +133,11 @@ public:
         else
             printTree( root );
     }
+    
+    
+/******************************************************************************
+     PUBLIC INSERT/REMOVE FUNCTIONS
+ ******************************************************************************/
     
     /**
      * Make the tree logically empty.
@@ -165,7 +172,32 @@ public:
         remove( x, root, count );
     }
     
+    
+/******************************************************************************
+    PUBLIC FUNCTIONS TO GET TREE CHARACTERISTICS
+ ******************************************************************************/
+    
+    /**
+     * Test if the tree is logically empty.
+     * Return true if empty, false otherwise.
+     */
+    bool isEmpty( ) const
+    {
+        return root == nullptr;
+    }
+    
+    /**
+     * Returns number of nodes in the tree
+     */
+    int num_of_nodes () {
+        return count_nodes(root);
+    }
+    
 private:
+    
+/******************************************************************************
+     Member Data
+******************************************************************************/
     struct AvlNode
     {
         Comparable element;
@@ -182,6 +214,10 @@ private:
     
     AvlNode *root;
     
+
+/******************************************************************************
+     Insert Functions
+******************************************************************************/
     
     /**
      * Internal method to insert into a subtree.
@@ -232,6 +268,10 @@ private:
         
         balance( t );
     }
+
+/******************************************************************************
+    Remove Functions
+******************************************************************************/
     
     /**
      * Internal method to remove from a subtree.
@@ -270,32 +310,10 @@ private:
         balance( t );
     }
     
-    static const int ALLOWED_IMBALANCE = 1;
-    
-    // Assume t is balanced or within one of being balanced
-    void balance( AvlNode * & t )
-    {
-        if( t == nullptr )
-            return;
-        
-        if( height( t->left ) - height( t->right ) > ALLOWED_IMBALANCE )
-            if( height( t->left->left ) >= height( t->left->right ) )
-                rotateWithLeftChild( t );
-            else
-                doubleWithLeftChild( t );
-            else
-                if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
-                    if( height( t->right->right ) >= height( t->right->left ) ){
-                        rotateWithRightChild( t );
-                    }
-                    else{
-                        doubleWithRightChild( t );
-                    }
-        
-        t->height = max( height( t->left ), height( t->right ) ) + 1;
-    }
-    
-    /**
+/******************************************************************************
+     Find Functions
+******************************************************************************/
+     /**
      * Internal methods to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
@@ -332,6 +350,11 @@ private:
         return t;
     }
     
+    /**
+     * Internal method to test if an item is in a subtree and return node item is in
+     * x is item to search for.
+     * t is the node that roots the tree.
+     */
     AvlNode * find ( const Comparable & x, AvlNode *t ) const
     {
         if( t == nullptr )
@@ -346,8 +369,6 @@ private:
             return t;    // Match. Return pointer to node.
     }
 
-    
-    
     /**
      * Internal method to test if an item is in a subtree.
      * x is item to search for.
@@ -384,44 +405,11 @@ private:
      }
      *****************************************************/
     
-    /**
-     * Internal method to make subtree empty.
-     */
-    void makeEmpty( AvlNode * & t )
-    {
-        if( t != nullptr )
-        {
-            makeEmpty( t->left );
-            makeEmpty( t->right );
-            delete t;
-        }
-        t = nullptr;
-    }
     
-    /**
-     * Internal method to print a subtree rooted at t in sorted order.
-     */
-    void printTree( AvlNode *t ) const
-    {
-        if( t != nullptr )
-        {
-            printTree( t->left );
-            cout << t->element << endl;
-            printTree( t->right );
-        }
-    }
+/******************************************************************************
+     Functions to calculate characteristics of tree
+******************************************************************************/
     
-    /**
-     * Internal method to clone subtree.
-     */
-    AvlNode * clone( AvlNode *t ) const
-    {
-        if( t == nullptr )
-            return nullptr;
-        else
-            return new AvlNode{ t->element, clone( t->left ), clone( t->right ), t->height };
-    }
-    // Avl manipulations
     /**
      * Return the height of node t or -1 if nullptr.
      */
@@ -445,6 +433,84 @@ private:
     int max( int lhs, int rhs ) const
     {
         return lhs > rhs ? lhs : rhs;
+    }
+    
+/******************************************************************************
+     Print to console functions
+******************************************************************************/
+    
+    /**
+     * Internal method to print a subtree rooted at t in sorted order.
+     */
+    void printTree( AvlNode *t ) const
+    {
+        if( t != nullptr )
+        {
+            printTree( t->left );
+            cout << t->element << endl;
+            printTree( t->right );
+        }
+    }
+    
+/******************************************************************************
+    Internal Constructor/Destructor Helper Functions
+******************************************************************************/
+    
+    /**
+     * Internal method to make subtree empty.
+     */
+    void makeEmpty( AvlNode * & t )
+    {
+        if( t != nullptr )
+        {
+            makeEmpty( t->left );
+            makeEmpty( t->right );
+            delete t;
+        }
+        t = nullptr;
+    }
+    
+    /**
+     * Internal method to clone subtree.
+     */
+    AvlNode * clone( AvlNode *t ) const
+    {
+        if( t == nullptr )
+            return nullptr;
+        else
+            return new AvlNode{ t->element, clone( t->left ), clone( t->right ), t->height };
+    }
+    // Avl manipulations
+    
+    
+/******************************************************************************
+     Balance Functions
+******************************************************************************/
+    
+    static const int ALLOWED_IMBALANCE = 1;
+    
+    // Assume t is balanced or within one of being balanced
+    void balance( AvlNode * & t )
+    {
+        if( t == nullptr )
+            return;
+        
+        if( height( t->left ) - height( t->right ) > ALLOWED_IMBALANCE )
+            if( height( t->left->left ) >= height( t->left->right ) )
+                rotateWithLeftChild( t );
+            else{
+                doubleWithLeftChild( t );
+            }
+            else
+                if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
+                    if( height( t->right->right ) >= height( t->right->left ) ){
+                        rotateWithRightChild( t );
+                    }
+                    else{
+                        doubleWithRightChild( t );
+                    }
+        
+        t->height = max( height( t->left ), height( t->right ) ) + 1;
     }
     
     /**

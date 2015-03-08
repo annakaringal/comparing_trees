@@ -35,6 +35,10 @@ template <typename Comparable>
 class LazyAvlTree
 {
 public:
+    
+/******************************************************************************
+     PUBLIC CONSTRUCTORS, DESTRUCTORS, MOVERS
+******************************************************************************/
     LazyAvlTree( ) : root{ nullptr }
     { }
     
@@ -73,6 +77,10 @@ public:
         return *this;
     }
     
+/******************************************************************************
+     PUBLIC FIND FUNCTIONS
+******************************************************************************/
+    
     /**
      * Find the smallest item in the tree.
      * Throw UnderflowException if empty.
@@ -106,6 +114,9 @@ public:
     }
     
     
+/******************************************************************************
+     PUBLIC PRINT FUNCTIONS
+******************************************************************************/
     /**
      * Prints contents of the node containing element x
      */
@@ -118,16 +129,6 @@ public:
             cout << found->element << endl;
         }
     }
-
-    
-    /**
-     * Test if the tree is logically empty.
-     * Return true if empty, false otherwise.
-     */
-    bool isEmpty( ) const
-    {
-        return root == nullptr;
-    }
     
     /**
      * Print the tree contents in sorted order.
@@ -139,6 +140,10 @@ public:
         else
             printTree( root );
     }
+    
+/******************************************************************************
+     PUBLIC INSERT/REMOVE FUNCTIONS
+******************************************************************************/
     
     /**
      * Make the tree logically empty.
@@ -175,7 +180,31 @@ public:
         
     }
     
+/******************************************************************************
+     PUBLIC FUNCTIONS TO GET TREE CHARACTERISTICS
+******************************************************************************/
+    
+    /**
+     * Test if the tree is logically empty.
+     * Return true if empty, false otherwise.
+     */
+    bool isEmpty( ) const
+    {
+        return root == nullptr;
+    }
+
+    /**
+     * Returns number of nodes in the tree
+     */
+    int num_of_nodes () {
+        return count_nodes(root);
+    }
+    
 private:
+    
+/******************************************************************************
+     Member Data
+******************************************************************************/
     struct LazyAvlNode
     {
         Comparable element;
@@ -192,8 +221,11 @@ private:
     };
     
     LazyAvlNode *root;
-    
-    
+
+/******************************************************************************
+     Insert Functions
+******************************************************************************/
+
     /**
      * Internal method to insert into a subtree.
      * x is the item to insert.
@@ -243,62 +275,11 @@ private:
         
         balance( t );
     }
-    
-    /**
-     * Internal method to remove find a node containing the Comparable element in the subtree
-     * x is the item to find.
-     * t is the node that roots the subtree.
-     * Set the new root of the subtree.
-     * Returns a pointer to the node containing the element
-     * If tree does not contain element or element is marked as deleted, returns nullptr
-     */
-    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count) const{
-        
-        if (t == nullptr){
-            return nullptr;
-        }
-        else if( t->element > x ){
-            count ++;
-            return find( x, t->left, count );
-        }
-        else if( t->element < x ){
-            count++;
-            return find( x, t->right, count );
-        }
-        else{ // Found a match, return pointer to node
-            if (!t->isDeleted) {
-                return t;
-            }
-            else {
-                return nullptr;
-            }
-        }
-
-    }
 
     
-    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t ) const{
-        
-        if (t == nullptr){
-            return nullptr;
-        }
-        else if( t->element > x ){
-            return find( x, t->left );
-        }
-        else if( t->element < x ){
-            return find( x, t->right );
-        }
-        else{ // Found a match, return pointer to node
-            if (!t->isDeleted) {
-                return t;
-            }
-            else {
-                return nullptr;
-            }
-        }
-        
-    }
-
+/******************************************************************************
+     Remove Functions
+******************************************************************************/
     
     /**
      * Internal method to remove from a subtree.
@@ -319,31 +300,10 @@ private:
             found->isDeleted = true;
         }
     }
-    
-    static const int ALLOWED_IMBALANCE = 1;
-    
-    // Assume t is balanced or within one of being balanced
-    void balance( LazyAvlNode * & t )
-    {
-        if( t == nullptr )
-            return;
-        
-        if( height( t->left ) - height( t->right ) > ALLOWED_IMBALANCE )
-            if( height( t->left->left ) >= height( t->left->right ) )
-                rotateWithLeftChild( t );
-            else
-                doubleWithLeftChild( t );
-            else
-                if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
-                    if ( height( t->right->right ) >= height( t->right->left ) ){
-                        rotateWithRightChild( t );
-                    }
-                    else {
-                        doubleWithRightChild( t );
-                    }
-        
-        t->height = max( height( t->left ), height( t->right ) ) + 1;
-    }
+
+/******************************************************************************
+     Find Functions
+******************************************************************************/
     
     /**
      * Internal method to find the smallest item in a subtree t.
@@ -402,6 +362,60 @@ private:
     
     
     /**
+     * Internal method to remove find a node containing the Comparable element in the subtree
+     * x is the item to find.
+     * t is the node that roots the subtree.
+     * Set the new root of the subtree.
+     * Returns a pointer to the node containing the element
+     * If tree does not contain element or element is marked as deleted, returns nullptr
+     */
+    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count) const{
+        
+        if (t == nullptr){
+            return nullptr;
+        }
+        else if( t->element > x ){
+            count ++;
+            return find( x, t->left, count );
+        }
+        else if( t->element < x ){
+            count++;
+            return find( x, t->right, count );
+        }
+        else{ // Found a match, return pointer to node
+            if (!t->isDeleted) {
+                return t;
+            }
+            else {
+                return nullptr;
+            }
+        }
+        
+    }
+    
+    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t ) const{
+        
+        if (t == nullptr){
+            return nullptr;
+        }
+        else if( t->element > x ){
+            return find( x, t->left );
+        }
+        else if( t->element < x ){
+            return find( x, t->right );
+        }
+        else{ // Found a match, return pointer to node
+            if (!t->isDeleted) {
+                return t;
+            }
+            else {
+                return nullptr;
+            }
+        }
+        
+    }
+    
+    /**
      * Internal method to test if an item is in a subtree.
      * x is item to search for.
      * t is the node that roots the tree.
@@ -417,45 +431,10 @@ private:
         }
     }
     
-    /**
-     * Internal method to make subtree empty.
-     */
-    void makeEmpty( LazyAvlNode * & t )
-    {
-        if( t != nullptr )
-        {
-            makeEmpty( t->left );
-            makeEmpty( t->right );
-            delete t;
-        }
-        t = nullptr;
-    }
+/******************************************************************************
+     Functions to calculate characteristics of tree
+******************************************************************************/
     
-    /**
-     * Internal method to print a subtree rooted at t in sorted order.
-     */
-    void printTree( LazyAvlNode *t ) const
-    {
-        // Print to console if tree node is not null and is not marked as deleted
-        if( t != nullptr && !t->isDeleted)
-        {
-            printTree( t->left );
-            cout << t->element << endl;
-            printTree( t->right );
-        }
-    }
-    
-    /**
-     * Internal method to clone subtree.
-     */
-    LazyAvlNode * clone( LazyAvlNode *t ) const
-    {
-        if( t == nullptr )
-            return nullptr;
-        else
-            return new LazyAvlNode{ t->element, clone( t->left ), clone( t->right ), t->height };
-    }
-    // Avl manipulations
     /**
      * Return the height of node t or -1 if nullptr.
      */
@@ -463,7 +442,6 @@ private:
     {
         return t == nullptr ? -1 : t->height;
     }
-    
     
     int count_nodes ( LazyAvlNode *t ) const{
         if (t == nullptr) {
@@ -481,6 +459,89 @@ private:
     int max( int lhs, int rhs ) const
     {
         return lhs > rhs ? lhs : rhs;
+    }
+    
+    
+/******************************************************************************
+     Print to console functions
+******************************************************************************/
+    
+    /**
+     * Internal method to print a subtree rooted at t in sorted order.
+     */
+    void printTree( LazyAvlNode *t ) const
+    {
+        // Print to console if tree node is not null and is not marked as deleted
+        if( t != nullptr && !t->isDeleted)
+        {
+            printTree( t->left );
+            cout << t->element << endl;
+            printTree( t->right );
+        }
+    }
+
+    
+/******************************************************************************
+     Internal Constructor/Destructor Helper Functions
+******************************************************************************/
+    
+    /**
+     * Internal method to make subtree empty.
+     */
+    void makeEmpty( LazyAvlNode * & t )
+    {
+        if( t != nullptr )
+        {
+            makeEmpty( t->left );
+            makeEmpty( t->right );
+            delete t;
+        }
+        t = nullptr;
+    }
+    
+    /**
+     * Internal method to clone subtree.
+     */
+    LazyAvlNode * clone( LazyAvlNode *t ) const
+    {
+        if( t == nullptr )
+            return nullptr;
+        else
+            return new LazyAvlNode{ t->element, clone( t->left ), clone( t->right ), t->height };
+    }
+    // Avl manipulations
+
+    
+/******************************************************************************
+     Balance Functions
+******************************************************************************/
+    
+    
+    static const int ALLOWED_IMBALANCE = 1;
+    
+    // Assume t is balanced or within one of being balanced
+    void balance( LazyAvlNode * & t )
+    {
+        if( t == nullptr )
+            return;
+        
+        if( height( t->left ) - height( t->right ) > ALLOWED_IMBALANCE )
+            if( height( t->left->left ) >= height( t->left->right ) ){
+                rotateWithLeftChild( t );
+            }
+            else{
+                doubleWithLeftChild( t );
+            }
+            else
+                if( height( t->right ) - height( t->left ) > ALLOWED_IMBALANCE )
+                    if ( height( t->right->right ) >= height( t->right->left ) ){
+                        rotateWithRightChild( t );
+                    }
+                    else {
+                        doubleWithRightChild( t );
+                    }
+        
+        t->height = max( height( t->left ), height( t->right ) ) + 1;
     }
     
     /**
