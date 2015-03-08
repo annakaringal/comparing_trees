@@ -257,7 +257,17 @@ private:
             insert( x, t->right, count);
         }
         else {
-            t->element.merge(x);
+            if (!t->isDeleted) {
+                // Non deleted node exists, merge two nodes
+                t->element.merge(x);
+            }
+            else {
+                // Deleted node. Mark as not deleted
+                // Clear acronyms and merge
+                t->isDeleted = false;
+                t->element.clear_acronyms();
+                t->element.merge(x);
+            }
         }
         
         balance( t );
@@ -282,7 +292,17 @@ private:
             insert( std::move( x ), t->right, count);
         }
         else {
-            t->element.merge(x);
+            if (!t->isDeleted) {
+                // Non deleted node exists, merge two nodes
+                t->element.merge(x);
+            }
+            else {
+                // Deleted node. Mark as not deleted
+                // Clear acronyms and merge 
+                t->isDeleted = false;
+                t->element.clear_acronyms();
+                t->element.merge(x);
+            }
         }
         
         balance( t );
@@ -301,16 +321,35 @@ private:
      */
     bool remove( const Comparable & x, LazyAvlNode * & t, int &count)
     {
-        // Find element containing x
-        LazyAvlNode* found = find(x, t, count);
-        if (found == nullptr){
-            return false;
-            // Do nothing. No node to remove
+        if( t == nullptr ){
+            return false;   // Item not found; do nothing
         }
-        else { // Mark node as deleted
-            found->isDeleted = true;
-            return true;
+        if( t->element > x  ){
+            count++;
+            return remove( x, t->left, count );
         }
+        else if( t->element < x ){
+            count++;
+            return remove( x, t->right, count );
+        }
+        else if( t->left != nullptr && t->right != nullptr ) // Two children
+        {
+            count ++;
+            t->element = findMin( t->right, count)->element;
+            count ++;
+            return remove( t->element, t->right, count );
+        }
+        else
+        {
+            if (!t->isDeleted) {
+                t->isDeleted = true; // Mark as deleted
+                return true;
+            }
+            else { // already marked as deleted
+                return false;
+            }
+        }
+        
     }
 
 /******************************************************************************
@@ -434,12 +473,23 @@ private:
      */
     bool contains( const Comparable & x, LazyAvlNode *t, int &count ) const
     {
-        LazyAvlNode* found = find(x, t, count);
-        if (found != nullptr){
-            return true;
-        }
-        else { // Node not found or is marked as deleted
+        if( t == nullptr )
             return false;
+        else if( t->element > x ){
+            count ++;
+            return contains( x, t->left, count );
+        }
+        else if( t->element < x ){
+            count++;
+            return contains( x, t->right, count );
+        }
+        else{
+            if (!t->isDeleted) { // Non-deleted Match
+                return true;
+            }
+            else {
+                return true;
+            }
         }
     }
     
