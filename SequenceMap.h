@@ -31,9 +31,10 @@ public:
     
     // In case of duplicates: adds other SequenceMap's enzyme acronym to enzyme acronyms
     void merge(SequenceMap &other);
-    
-    // In case of duplicates: adds other SequenceMap's enzyme acronym to enzyme acronyms
     void merge(const SequenceMap &other);
+    
+    // Removes all acronyms existing from enyme_acronyms and creates an empty set
+    void clear_acronyms ();
     
     // Comparison operators
     bool operator< (const SequenceMap &right);

@@ -9,6 +9,10 @@ string SequenceMap::get_sequence() const { return sequence; }
 
 set<string> SequenceMap::get_acronyms() const { return enzyme_acronyms; }
 
+void SequenceMap::clear_acronyms(){
+    enzyme_acronyms.clear();
+}
+
 void SequenceMap::merge(SequenceMap &other){
     
     // Check if sequences of both sequences are the same
