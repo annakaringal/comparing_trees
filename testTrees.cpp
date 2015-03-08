@@ -49,12 +49,14 @@ int main(int argc, const char * argv[]) {
                     cout << "Binary Search Tree Created." << endl;
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
                     get_tree_characteristics(bst_tree);
+                    search_from_file(seq_query_file, bst_tree);
                 }
                 else if (tree_type == "avl"){
                     AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(parsef, insert_count);
                     cout << "AVL Tree Created." << endl;
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
                     get_tree_characteristics(avl_tree);
+                    search_from_file(seq_query_file, avl_tree);
 
                 }
                 else if (tree_type == "lazyavl") {
@@ -62,6 +64,7 @@ int main(int argc, const char * argv[]) {
                     cout << "AVL Tree with Lazy Deletion Created." << endl;
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
                     get_tree_characteristics(lazy_tree);
+                    search_from_file(seq_query_file, lazy_tree);
 
                 }
 

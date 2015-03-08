@@ -36,20 +36,41 @@ void get_tree_characteristics(TreeType &tree) {
 
     }
     else {
-        
         cout << "Empty tree. No information to calculate." << endl;
-        
     }
     
 }
 
 template <typename TreeType>
-void search_from_file (istream &readf, TreeType &tree) {
+void search_from_file (string filename, TreeType &tree) {
+    
+    ifstream readf;
+    readf.open(filename.c_str());
+    
+    if (readf.fail()){
+        cerr << "ERROR: Invalid file. Please check your file name and try again." << endl;
+        exit(-1);
+    }
+    
+    int success = 0;
+    int recursive_calls = 0;
+    string query;
+    
+    if (readf.is_open()) {
+        while (getline(readf,query)){
+            if (tree.contains(query, recursive_calls)){
+                success ++;
+            }
+        }
+    }
+    
+    cout << "Successful queries: " << success << endl;
+    cout << "Recursive calls to contains():  << " << recursive_calls << endl;
     
 }
 
 template <typename TreeType>
-void remove_from_file(istream &readf, TreeType &tree) {
+void remove_from_file(string filename, TreeType &tree) {
     
 }
 
