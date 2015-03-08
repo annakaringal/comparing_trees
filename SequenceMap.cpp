@@ -57,7 +57,6 @@ bool SequenceMap::operator> (const SequenceMap &right){
 
 ostream &operator << (ostream &os, const SequenceMap &sm){
     
-    os << "SEQUENCE: " << sm.get_sequence() << endl;
     os << "ACRONYMS: " << endl;
     for (auto x: sm.get_acronyms()) {
         os << x << endl;
