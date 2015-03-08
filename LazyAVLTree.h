@@ -464,6 +464,20 @@ private:
         return t == nullptr ? -1 : t->height;
     }
     
+    
+    int count_nodes ( LazyAvlNode *t ) const{
+        if (t == nullptr) {
+            return 0;
+        }
+        if (t->left == nullptr && t->right == nullptr) {
+            return 1;
+        }
+        else {
+            return 1 + count_nodes(t->left) + count_nodes(t->right);
+        }
+    }
+
+    
     int max( int lhs, int rhs ) const
     {
         return lhs > rhs ? lhs : rhs;

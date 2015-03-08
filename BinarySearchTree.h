@@ -373,6 +373,20 @@ private:
         t = nullptr;
     }
     
+    
+    int count_nodes ( BinaryNode *t ) const{
+        if (t == nullptr) {
+            return 0;
+        }
+        if (t->left == nullptr && t->right == nullptr) {
+            return 1;
+        }
+        else {
+            return 1 + count_nodes(t->left) + count_nodes(t->right);
+        }
+    }
+
+    
     /**
      * Internal method to print a subtree rooted at t in sorted order.
      */
