@@ -1,3 +1,15 @@
+
+/*****************************************************************************
+ Title:             LazyAVLTree.h
+ Author:            Anna Cristina Karingal
+ Created on:        February 21, 2015
+ Description:       Template class for an AVL Tree
+ 
+ Last Modified:     March 8, 2015
+ 
+ *****************************************************************************/
+
+
 #ifndef AVL_TREE_H
 #define AVL_TREE_H
 
@@ -193,6 +205,11 @@ public:
         return count_nodes(root);
     }
     
+    
+    /**
+     * Returns internal path length, i.e. sum of depth of all nodes in 
+     * tree
+     */
     int internal_path_length() {
         return total_depth(root, 0);
     }
@@ -443,7 +460,6 @@ private:
     /**
      * Returns sum of the depth of all nodes in tree rooted at t
      */
-    
     int total_depth( AvlNode *t, int& totald) {
         
         if (t == nullptr) {

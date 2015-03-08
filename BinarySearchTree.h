@@ -202,6 +202,16 @@ public:
     }
     
     
+    /**
+     * Returns internal path length, i.e. sum of depth of all nodes in
+     * tree
+     */
+    int internal_path_length() {
+        return total_depth(root, 0);
+    }
+
+    
+    
 private:
     
 /******************************************************************************
@@ -407,6 +417,10 @@ private:
      Functions to calculate characteristics of tree
 ******************************************************************************/
     
+    
+    /**
+     * Recursively counts number of nodes in tree
+     */
     int count_nodes ( BinaryNode *t ) const{
         if (t == nullptr) {
             return 0;
@@ -418,6 +432,23 @@ private:
             return 1 + count_nodes(t->left) + count_nodes(t->right);
         }
     }
+    
+    
+    /**
+     * Returns sum of the depth of all nodes in tree rooted at t
+     */
+    
+    int total_depth( BinaryNode *t, int& totald) {
+        
+        if (t == nullptr) {
+            return totald-1;
+        }
+        else {
+            return total_depth(t->left, totald+1) + total_depth(t->right, totald+1);
+        }
+        
+    }
+    
 
 /******************************************************************************
      Print to console functions

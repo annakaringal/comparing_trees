@@ -1,10 +1,3 @@
-#ifndef LAZYAVL_TREE_H
-#define LAZYAVL_TREE_H
-
-#include "dsexceptions.h"
-#include <algorithm>
-#include <iostream>
-using namespace std;
 
 /*****************************************************************************
  Title:             LazyAVLTree.h
@@ -12,9 +5,18 @@ using namespace std;
  Created on:        February 21, 2015
  Description:       Template class for an AVL Tree that supports lazy deletion
  
- Last Modified:     March 7, 2015
+ Last Modified:     March 8, 2015
  
- *****************************************************************************/
+*****************************************************************************/
+
+
+#ifndef LAZYAVL_TREE_H
+#define LAZYAVL_TREE_H
+
+#include "dsexceptions.h"
+#include <algorithm>
+#include <iostream>
+using namespace std;
 
 //
 // CONSTRUCTION: zero parameter
@@ -199,6 +201,16 @@ public:
     int num_of_nodes () {
         return count_nodes(root);
     }
+    
+    
+    /**
+     * Returns internal path length, i.e. sum of depth of all nodes in
+     * tree
+     */
+    int internal_path_length() {
+        return total_depth(root, 0);
+    }
+
     
 private:
     
@@ -443,6 +455,9 @@ private:
         return t == nullptr ? -1 : t->height;
     }
     
+    /**
+     * Recursively counts number of nodes in tree
+     */
     int count_nodes ( LazyAvlNode *t ) const{
         if (t == nullptr) {
             return 0;
@@ -455,6 +470,19 @@ private:
         }
     }
 
+    /**
+     * Returns sum of the depth of all nodes in tree rooted at t
+     */
+    int total_depth( LazyAvlNode *t, int& totald) {
+        
+        if (t == nullptr) {
+            return totald-1;
+        }
+        else {
+            return total_depth(t->left, totald+1) + total_depth(t->right, totald+1);
+        }
+        
+    }
     
     int max( int lhs, int rhs ) const
     {
