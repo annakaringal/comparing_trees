@@ -8,9 +8,9 @@ Using and comparing performance of a basic BST with an AVL tree, as well as lazy
 ## Compiling the Program
 While in the working directory, type into terminal
 
-`make`: to compile both programs
-`make queryTrees`: to make only the queryTrees program
-`make testTrees`: to make only the testTrees program
+- `make`: to compile both programs
+- `make queryTrees`: to make only the queryTrees program
+- `make testTrees`: to make only the testTrees program
 
 
 ## Running the program
