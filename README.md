@@ -16,11 +16,11 @@ While in the working directory, type into terminal
 ## Running the program
 To run the queryTrees program, while in the working directory, type into the
 terminal: 
-> `queryTrees <database file name> <flag>`
+> `./queryTrees <database file name> <flag>`
 
 To run the testTrees program, while in the working directory, type into the
 terminal: 
-> `testTrees <database file name> <queries file name> <flag>`
+> `./testTrees <database file name> <queries file name> <flag>`
 
 `<flag>`should be “BST” for binary search tree, “AVL” for AVL tree, and
 “LazyAVL” for AVL with lazy deletion.
