@@ -111,14 +111,13 @@ public:
         return findMax( root )->element;
     }
     
-    
     /**
      * Returns true if x is found in the tree.
+     * Counts the number of recursive calls made
      */
     bool contains( const Comparable & x, int& count) const {
         return contains( x, root, count );
     }
-    
     
     
 /******************************************************************************
@@ -160,21 +159,20 @@ public:
     }
     
     /**
-     * Insert x into the tree; duplicates are ignored.
+     * Insert x into the tree; duplicates are merged
+     * Counts the number of recursive calls made to insert
      */
     void insert( const Comparable & x, int &count ) {
         insert(x, root, count);
     }
-    
-    /**
-     * Insert x into the tree; duplicates are ignored.
-     */
+
     void insert ( Comparable &x, int &count ) {
         insert( std::move( x ), root, count);
     }
     
     /**
      * Remove x from the tree. Nothing is done if x is not found.
+     * Counts the number of recursive calls made
      */
     bool remove( const Comparable & x, int& count ) {
         return remove( x, root, count );
@@ -209,8 +207,6 @@ public:
         int start = 0;
         return totalDepth(root, start);
     }
-
-    
     
 private:
     
@@ -241,6 +237,7 @@ private:
      * x is the item to insert.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
+     * Counts the number of recursive calls made to insert
      */
     void insert( const Comparable & x, BinaryNode * & t, int &count) {
         if( t == nullptr ){
@@ -258,13 +255,7 @@ private:
             t->element.merge(x);
         }
     }
-    
-    /**
-     * Internal method to insert into a subtree.
-     * x is the item to insert.
-     * t is the node that roots the subtree.
-     * Set the new root of the subtree.
-     */
+
     void insert( Comparable && x, BinaryNode * & t, int &count) {
         if( t == nullptr ){
             t = new BinaryNode{ std::move( x ), nullptr, nullptr };
@@ -291,6 +282,7 @@ private:
      * x is the item to remove.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
+     * Counts the number of recursive calls made to remove
      */
      bool remove( const Comparable & x, BinaryNode * & t, int & count) {
         if( t == nullptr )
@@ -336,7 +328,6 @@ private:
         return findMin( t->left);
     }
     
-    
     BinaryNode * findMin( BinaryNode *t, int &count ) const {
         if( t == nullptr )
             return nullptr;
@@ -357,6 +348,15 @@ private:
         return t;
     }
     
+    /**
+     * Internal method to find a node containing the Comparable element 
+     * subtree rooted at t
+     * x is the item to find.
+     * t is the node that roots the subtree.
+     * Set the new root of the subtree.
+     * Returns a pointer to the node containing the element
+     * If tree does not contain element, returns nullptr
+     */
     BinaryNode* find( const Comparable & x, BinaryNode *t ) const {
         
         if( t == nullptr ) // Item not found
@@ -375,6 +375,8 @@ private:
      * Internal method to test if an item is in a subtree.
      * x is item to search for.
      * t is the node that roots the subtree.
+     * Returns true if item is in subtree; else returns false
+     * Counts number of recursive calls made to contains
      */
     bool contains( const Comparable & x, BinaryNode *t, int &count ) const {
         if( t == nullptr )
@@ -410,9 +412,8 @@ private:
      Functions to calculate characteristics of tree
 ******************************************************************************/
     
-    
     /**
-     * Recursively counts number of nodes in tree
+     * Recursively counts number of nodes in tree rooted at t
      */
     int countNodes ( BinaryNode *t ) const {
         if (t == nullptr) {
@@ -425,12 +426,11 @@ private:
             return 1 + countNodes(t->left) + countNodes(t->right);
         }
     }
-    
+
     
     /**
      * Returns sum of the depth of all nodes in tree rooted at t
      */
-    
     int totalDepth( BinaryNode *t, int& totald) {
         
         if (t == nullptr) {
@@ -442,7 +442,6 @@ private:
         }
         
     }
-    
 
 /******************************************************************************
      Print to console functions
@@ -459,7 +458,6 @@ private:
             printTree( t->right, out );
         }
     }
-    
     
 /******************************************************************************
      Internal Constructor/Destructor Helper Functions

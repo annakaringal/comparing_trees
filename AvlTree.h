@@ -81,7 +81,6 @@ public:
         return *this;
     }
     
-    
 /******************************************************************************
      PUBLIC FIND FUNCTIONS
  ******************************************************************************/
@@ -107,7 +106,8 @@ public:
     }
     
     /**
-     * Returns true if x is found in the tree.
+     * Returns true if x is found in the tree. Else returns false
+     * Counts number of recursive call
      */
     bool contains( const Comparable & x, int& count) const {
         return contains( x, root, count );
@@ -139,7 +139,6 @@ public:
             printTree( root );
     }
     
-    
 /*****************************************************************************
      PUBLIC INSERT/REMOVE FUNCTIONS
 *****************************************************************************/
@@ -152,21 +151,20 @@ public:
     }
     
     /**
-     * Insert x into the tree; duplicates are ignored.
+     * Insert x into the tree; duplicates are merged
+     * Counts number of recursive calls to insert
      */
     void insert( const Comparable & x, int &count ) {
         insert( x, root, count );
     }
     
-    /**
-     * Insert x into the tree; duplicates are ignored.
-     */
     void insert( Comparable && x, int &count ) {
         insert( std::move( x ), root, count );
     }
     
     /**
      * Remove x from the tree. Nothing is done if x is not found.
+     * Counts number of recursive calls to remove
      */
     bool remove( const Comparable & x, int& count ) {
         return remove( x, root, count );
@@ -191,7 +189,6 @@ public:
     int nodes () {
         return countNodes(root);
     }
-    
     
     /**
      * Returns internal path length, i.e. sum of depth of all nodes in 
@@ -233,6 +230,7 @@ private:
      * x is the item to insert.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
+     * Counts number of recursive calls to insert
      */
     void insert( const Comparable & x, AvlNode * & t, int &count ) {
         if ( t == nullptr ){
@@ -258,6 +256,7 @@ private:
      * x is the item to insert.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
+     * Counts number of recursive calls to insert
      */
     void insert( Comparable && x, AvlNode * & t, int &count)
     {
@@ -288,6 +287,7 @@ private:
      * x is the item to remove.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
+     * Counts number of recursive calls to remove
      */
     bool remove( const Comparable & x, AvlNode * &t, int &count) {
         if( t == nullptr ){
@@ -320,11 +320,11 @@ private:
 /*****************************************************************************
      Find Functions
 *****************************************************************************/
+
      /**
      * Internal methods to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
-    
     AvlNode * findMin( AvlNode *t ) const {
         if( t == nullptr )
             return nullptr;
@@ -355,9 +355,13 @@ private:
     }
     
     /**
-     * Internal method to test if an item is in a subtree and return node item is in
-     * x is item to search for.
-     * t is the node that roots the tree.
+     * Internal method to find a node containing the Comparable element 
+     * subtree rooted at t
+     * x is the item to find.
+     * t is the node that roots the subtree.
+     * Set the new root of the subtree.
+     * Returns a pointer to the node containing the element
+     * If tree does not contain element, returns nullptr
      */
     AvlNode * find ( const Comparable & x, AvlNode *t ) const {
         if( t == nullptr )
@@ -408,9 +412,9 @@ private:
      *****************************************************/
     
     
-/******************************************************************************
+/*****************************************************************************
      Functions to calculate characteristics of tree
-******************************************************************************/
+*****************************************************************************/
     
     /**
      * Return the height of node t or -1 if nullptr.

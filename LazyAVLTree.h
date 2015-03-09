@@ -108,17 +108,16 @@ public:
     
     /**
      * Returns true if x is found in the tree.
+     * Counts the number of recursive calls made to find element
      */
     bool contains( const Comparable & x, int& count) const {
         return contains( x, root, count );
     }
     
-
-    
-    
 /******************************************************************************
      PUBLIC PRINT FUNCTIONS
 ******************************************************************************/
+
     /**
      * Prints contents of the node containing element x
      */
@@ -155,22 +154,20 @@ public:
     }
     
     /**
-     * Insert x into the tree; duplicates are ignored.
+     * Insert x into the tree; duplicates are merged
+     * Counts the number of recursive calls made to insert
      */
     void insert( const Comparable & x, int &count ) {
         insert( x, root, count );
     }
-    
-    /**
-     * Insert x into the tree; duplicates are ignored.
-     */
+
     void insert( Comparable && x, int &count ) {
         insert( std::move( x ), root, count );
-        
     }
     
     /**
      * Remove x from the tree. Nothing is done if x is not found.
+     * Counts the number of recursive calls made to remove
      */
     bool remove( const Comparable & x, int &count) {
         return remove( x, root, count );
@@ -198,8 +195,7 @@ public:
     
     
     /**
-     * Returns internal path length, i.e. sum of depth of all nodes in
-     * tree
+     * Returns internal path length, i.e. sum of depth of all nodes in tree
      */
     int internalPathLength() {
         int start = 0;
@@ -238,6 +234,7 @@ private:
      * x is the item to insert.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
+     * Counts the number of recursive calls made to insert
      */
     void insert( const Comparable & x, LazyAvlNode * & t, int &count ) {
         if( t == nullptr )
@@ -266,13 +263,7 @@ private:
         
         balance( t );
     }
-    
-    /**
-     * Internal method to insert into a subtree.
-     * x is the item to insert.
-     * t is the node that roots the subtree.
-     * Set the new root of the subtree.
-     */
+
     void insert( Comparable && x, LazyAvlNode * & t, int &count) {
         if( t == nullptr )
             t = new LazyAvlNode{ std::move( x ), nullptr, nullptr };
@@ -311,6 +302,7 @@ private:
      * x is the item to remove.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
+     * Counts the number of recursive calls made
      */
     bool remove( const Comparable & x, LazyAvlNode * & t, int &count) {
         if( t == nullptr ){
@@ -394,16 +386,17 @@ private:
         // Look in left subtree
         return findMax( t->left );
 
-    }
-    
-    
+    }    
+
     /**
-     * Internal method to remove find a node containing the Comparable element in the subtree
+     * Internal method to find a node containing the Comparable element 
+     * subtree rooted at t
      * x is the item to find.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      * Returns a pointer to the node containing the element
-     * If tree does not contain element or element is marked as deleted, returns nullptr
+     * If tree does not contain element or element marked as deleted, returns
+     * nullptr
      */
     LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count) const {
         
@@ -455,6 +448,8 @@ private:
      * Internal method to test if an item is in a subtree.
      * x is item to search for.
      * t is the node that roots the tree.
+     * Returns true if item is in subtree; else returns false
+     * Counts the number of recursive calls made
      */
     bool contains( const Comparable & x, LazyAvlNode *t, int &count ) const {
         if( t == nullptr )
@@ -531,7 +526,8 @@ private:
      * Internal method to print a subtree rooted at t in sorted order.
      */
     void printTree( LazyAvlNode *t ) const {
-        // Print to console if tree node is not null and is not marked as deleted
+
+        // Print to console if tree node is not null & is not marked deleted
         if( t != nullptr && !t->isDeleted)
         {
             printTree( t->left );
