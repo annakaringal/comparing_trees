@@ -80,6 +80,18 @@ int main(int argc, const char * argv[]) {
                 cerr << "ERROR: Invalid tree type specified - " << invalid_tree_type.what() << endl;
                 exit(-1);
             }
+            catch (underflow_error) {
+                cerr << "ERROR: Empty tree. Could not run test routines."<< endl;
+                exit(-1);
+            }
+            catch (logic_error le) {
+                cerr << "ERROR: Trying to merge SequenceMaps containing different sequences. (" << le.what() << ")" << endl;
+                exit(-1);
+            }
+            catch (...) {
+                cerr << "Unknown Error. Now exiting. Goodbye." << endl;
+                exit(-1);
+            }
         }
         
         readf.close();

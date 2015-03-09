@@ -86,6 +86,7 @@ void runTestRoutine(TreeType &tree, string filename){
 template <typename TreeType>
 void getTreeCharacteristics(TreeType &tree) {
     
+    // Check if tree is empty to avoid divide by zero error
     if (!tree.isEmpty()) {
         
         // Calculate and print number of nodes in tree
