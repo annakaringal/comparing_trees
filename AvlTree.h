@@ -9,6 +9,10 @@
  Created on:        February 21, 2015
  Last Modified:     March 8, 2015
  
+ Sources:           Modified version of the AvlTree template class by Mark
+                    Allen Weiss, as found in Data Structures and Algorithm
+                    Analysis in C++ (4th ed).
+ 
  ****************************************************************************/
 
 #include "dsexceptions.h"

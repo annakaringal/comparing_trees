@@ -4,10 +4,14 @@
 /*****************************************************************************
  Title:             BinarySearchTree.h
  Author:            Anna Cristina Karingal
+ Created on:        February 21, 2015
  Description:       Template class for a Binary Search Tree data structure
 
- Created on:        February 21, 2015
  Last Modified:     March 8, 2015
+ 
+ Sources:           Modified version of the Binary Search Tree template class
+                    by Mark  Allen Weiss, as found in Data Structures and 
+                    Algorithm Analysis in C++ (4th ed).
  
  ****************************************************************************/
 
