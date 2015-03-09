@@ -8,8 +8,8 @@
  
  *****************************************************************************/
 
-#ifndef ____SequenceMap__
-#define ____SequenceMap__
+#ifndef SEQUENCEMAP_H
+#define SEQUENCEMAP_H
 
 #include <iostream>
 #include <set>

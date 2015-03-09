@@ -8,8 +8,8 @@
  
  *****************************************************************************/
 
-#ifndef ____TreeParser__
-#define ____TreeParser__
+#ifndef TREEPARSER_H
+#define TREEPARSER_H
 
 #include <iostream>
 #include <fstream>
