@@ -33,9 +33,6 @@ public:
     
     // Constructor that initializes with an empty set of enzyme acronyms by default
     SequenceMap(string seq, string acronym="");
-
-    // Destructor
-    ~SequenceMap();
     
     // In case of duplicates: adds other SequenceMap's enzyme acronym to enzyme acronyms
     void merge(SequenceMap &other);
