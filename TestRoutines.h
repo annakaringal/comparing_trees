@@ -1,5 +1,5 @@
-#ifndef ____TestRoutines__
-#define ____TestRoutines__
+#ifndef TESTROUTINES_H
+#define TESTROUTINES_H
 
 #include <iostream>
 #include <fstream>
@@ -13,45 +13,45 @@
 using namespace std;
 
 template <typename TreeType>
-void run_test_routine(TreeType &tree, string filename){
+void runTestRoutine(TreeType &tree, string filename){
     
     // Print number of nodes, avg depth & avg depth ratio
-    get_tree_characteristics(tree);
+    getTreeCharacteristics(tree);
     
     cout << "--------------------" << endl;
     cout << "..Searching tree for sequences in file...\n" << endl;
     // Search tree for sequences in a given query file
-    search_from_file(filename, tree);
+    searchFromFile(filename, tree);
     
     cout << "--------------------" << endl;
     cout << "...Removing every other sequence from tree...\n" << endl;
 
     // Remove every other sequence in query file from tree
-    remove_alternate_sequences(filename, tree);
+    removeAlternateSequences(filename, tree);
     
     
     cout << "--------------------" << endl;
     // Print number of nodes, avg depth & avg depth ratio for new tree
-    get_tree_characteristics(tree);
+    getTreeCharacteristics(tree);
     
     cout << "--------------------" << endl;
     cout << "...Searching tree for sequences in file...\n" << endl;
     // Search new tree for sequences in file
-    search_from_file(filename, tree);
+    searchFromFile(filename, tree);
     
 }
 
 template <typename TreeType>
-void get_tree_characteristics(TreeType &tree) {
+void getTreeCharacteristics(TreeType &tree) {
     
     if (!tree.isEmpty()) {
         
         // Calculate and print number of nodes in tree
-        int n = tree.num_of_nodes();
+        int n = tree.nodes();
         cout << "Number of Nodes: " << n << endl;
         
         // Compute and print average depth of tree
-        float avg_depth = tree.internal_path_length() / n;
+        float avg_depth = tree.internalPathLength() / n;
         cout << "Average Depth: " << avg_depth << endl;
         
         if (n > 1) {
@@ -71,7 +71,7 @@ void get_tree_characteristics(TreeType &tree) {
 }
 
 template <typename TreeType>
-void search_from_file (string filename, TreeType &tree) {
+void searchFromFile (string filename, TreeType &tree) {
     
     ifstream readf;
     readf.open(filename.c_str());
@@ -100,7 +100,7 @@ void search_from_file (string filename, TreeType &tree) {
 }
 
 template <typename TreeType>
-void remove_alternate_sequences(string filename, TreeType &tree) {
+void removeAlternateSequences(string filename, TreeType &tree) {
     
     ifstream readf;
     readf.open(filename.c_str());

@@ -44,16 +44,16 @@ int main(int argc, const char * argv[]) {
                 // Prompt user for recognition sequence queries and print
                 // enzyme acronyms for valid sequences
                 if (tree_type == "bst") {
-                    BinarySearchTree<SequenceMap> bst_tree = parse_tree<BinarySearchTree<SequenceMap>>(readf);
-                    print_seqmap(bst_tree);
+                    BinarySearchTree<SequenceMap> bst_tree = parseTree<BinarySearchTree<SequenceMap>>(readf);
+                    printSequenceMap(bst_tree);
                 }
                 else if (tree_type == "avl"){
-                    AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(readf);
-                    print_seqmap(avl_tree);
+                    AvlTree<SequenceMap> avl_tree = parseTree<AvlTree<SequenceMap>>(readf);
+                    printSequenceMap(avl_tree);
                 }
                 else if (tree_type == "lazyavl") {
-                    LazyAvlTree<SequenceMap> lazy_tree = parse_tree<LazyAvlTree<SequenceMap>>(readf);
-                    print_seqmap(lazy_tree);
+                    LazyAvlTree<SequenceMap> lazy_tree = parseTree<LazyAvlTree<SequenceMap>>(readf);
+                    printSequenceMap(lazy_tree);
                 }
                 else {
                     throw invalid_argument(tree_type);

@@ -18,18 +18,27 @@
 #include <iostream>
 using namespace std;
 
+// AVL Tree with Lazy Deletion class
 //
 // CONSTRUCTION: zero parameter
 //
 // ******************PUBLIC OPERATIONS*********************
-// void insert( x )       --> Insert x
-// void remove( x )       --> Remove x (unimplemented)
-// bool contains( x )     --> Return true if x is present
-// Comparable findMin( )  --> Return smallest item
-// Comparable findMax( )  --> Return largest item
-// boolean isEmpty( )     --> Return true if empty; else false
-// void makeEmpty( )      --> Remove all items
-// void printTree( )      --> Print tree in sorted order
+// void insert( x, count )     --> Insert x. Adds to count the number of
+//                                 recursive calls made.
+// void remove( x, count )     --> Removes x. Adds to count the number of
+//                                 recursive calls made.
+// bool contains( x, count )   --> Return true if x is present; else false.
+//                                 Adds to count the number of recursive calls
+//                                 made.
+// Comparable findMin( )       --> Return smallest item
+// Comparable findMax( )       --> Return largest item
+// boolean isEmpty( )          --> Return true if empty; else false
+// void makeEmpty( )           --> Remove all items
+// void printTree( )           --> Print tree in sorted order
+// void printNode(x)           --> Prints element in node containing x
+// int nodes( )                --> Returns the number of nodes in the tree
+// int internalPathLength( )   --> Returns the sum of the depth of all nodes
+//                                 in the tree.
 // ******************ERRORS********************************
 // Throws UnderflowException as warranted
 
@@ -41,29 +50,24 @@ public:
 /******************************************************************************
      PUBLIC CONSTRUCTORS, DESTRUCTORS, MOVERS
 ******************************************************************************/
-    LazyAvlTree( ) : root{ nullptr }
-    { }
+    LazyAvlTree( ) : root{ nullptr } { }
     
-    LazyAvlTree( const LazyAvlTree & rhs ) : root{ nullptr }
-    {
+    LazyAvlTree( const LazyAvlTree & rhs ) : root{ nullptr } {
         root = clone( rhs.root );
     }
     
-    LazyAvlTree( LazyAvlTree && rhs ) : root{ rhs.root }
-    {
+    LazyAvlTree( LazyAvlTree && rhs ) : root{ rhs.root } {
         rhs.root = nullptr;
     }
     
-    ~LazyAvlTree( )
-    {
+    ~LazyAvlTree( ) {
         makeEmpty( );
     }
     
     /**
      * Deep copy.
      */
-    LazyAvlTree & operator=( const LazyAvlTree & rhs )
-    {
+    LazyAvlTree & operator=( const LazyAvlTree & rhs ) {
         LazyAvlTree copy = rhs;
         std::swap( *this, copy );
         return *this;
@@ -72,8 +76,7 @@ public:
     /**
      * Move.
      */
-    LazyAvlTree & operator=( LazyAvlTree && rhs )
-    {
+    LazyAvlTree & operator=( LazyAvlTree && rhs ) {
         std::swap( root, rhs.root );
         
         return *this;
@@ -87,8 +90,7 @@ public:
      * Find the smallest item in the tree.
      * Throw UnderflowException if empty.
      */
-    const Comparable & findMin( ) const
-    {
+    const Comparable & findMin( ) const {
         if( isEmpty( ) )
             throw UnderflowException{ };
         return findMin( root )->element;
@@ -98,8 +100,7 @@ public:
      * Find the largest item in the tree.
      * Throw UnderflowException if empty.
      */
-    const Comparable & findMax( ) const
-    {
+    const Comparable & findMax( ) const {
         if( isEmpty( ) )
             throw UnderflowException{ };
         return findMax( root )->element;
@@ -108,8 +109,7 @@ public:
     /**
      * Returns true if x is found in the tree.
      */
-    bool contains( const Comparable & x, int& count) const
-    {
+    bool contains( const Comparable & x, int& count) const {
         return contains( x, root, count );
     }
     
@@ -122,7 +122,7 @@ public:
     /**
      * Prints contents of the node containing element x
      */
-    void print_node (const Comparable & x ) const{
+    void printNode (const Comparable & x ) const {
         LazyAvlNode* found = find (x, root);
         if (found == nullptr) {
             cout << "Element not found in tree." << endl;
@@ -135,8 +135,7 @@ public:
     /**
      * Print the tree contents in sorted order.
      */
-    void printTree( ) const
-    {
+    void printTree( ) const {
         if( isEmpty( ) )
             cout << "Empty tree" << endl;
         else
@@ -158,16 +157,14 @@ public:
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( const Comparable & x, int &count )
-    {
+    void insert( const Comparable & x, int &count ) {
         insert( x, root, count );
     }
     
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( Comparable && x, int &count )
-    {
+    void insert( Comparable && x, int &count ) {
         insert( std::move( x ), root, count );
         
     }
@@ -175,8 +172,7 @@ public:
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
-    bool remove( const Comparable & x, int &count)
-    {
+    bool remove( const Comparable & x, int &count) {
         return remove( x, root, count );
         
     }
@@ -189,16 +185,15 @@ public:
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
      */
-    bool isEmpty( ) const
-    {
+    bool isEmpty( ) const {
         return root == nullptr;
     }
 
     /**
      * Returns number of nodes in the tree
      */
-    int num_of_nodes () {
-        return count_nodes(root);
+    int nodes ( ) {
+        return countNodes(root);
     }
     
     
@@ -206,9 +201,9 @@ public:
      * Returns internal path length, i.e. sum of depth of all nodes in
      * tree
      */
-    int internal_path_length() {
+    int internalPathLength() {
         int start = 0;
-        return total_depth(root, start);
+        return totalDepth(root, start);
     }
 
     
@@ -244,8 +239,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( const Comparable & x, LazyAvlNode * & t, int &count )
-    {
+    void insert( const Comparable & x, LazyAvlNode * & t, int &count ) {
         if( t == nullptr )
             t = new LazyAvlNode{ x, nullptr, nullptr };
         else if( t->element > x ){
@@ -265,7 +259,7 @@ private:
                 // Deleted node. Mark as not deleted
                 // Clear acronyms and merge
                 t->isDeleted = false;
-                t->element.clear_acronyms();
+                t->element.clearAcronyms();
                 t->element.merge(x);
             }
         }
@@ -279,8 +273,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( Comparable && x, LazyAvlNode * & t, int &count)
-    {
+    void insert( Comparable && x, LazyAvlNode * & t, int &count) {
         if( t == nullptr )
             t = new LazyAvlNode{ std::move( x ), nullptr, nullptr };
         else if( t->element > x ){
@@ -300,7 +293,7 @@ private:
                 // Deleted node. Mark as not deleted
                 // Clear acronyms and merge 
                 t->isDeleted = false;
-                t->element.clear_acronyms();
+                t->element.clearAcronyms();
                 t->element.merge(x);
             }
         }
@@ -319,8 +312,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    bool remove( const Comparable & x, LazyAvlNode * & t, int &count)
-    {
+    bool remove( const Comparable & x, LazyAvlNode * & t, int &count) {
         if( t == nullptr ){
             return false;   // Item not found; do nothing
         }
@@ -353,8 +345,7 @@ private:
      * Internal method to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
-    LazyAvlNode * findMin( LazyAvlNode *t, int &count ) const
-    {
+    LazyAvlNode * findMin( LazyAvlNode *t, int &count ) const {
         if( t == nullptr )
             return nullptr;
         
@@ -382,8 +373,7 @@ private:
      * Internal method to find the largest item in a subtree t.
      * Return node containing the largest item.
      */
-    LazyAvlNode * findMax( LazyAvlNode *t ) const
-    {
+    LazyAvlNode * findMax( LazyAvlNode *t ) const {
         if( t == nullptr )
             return nullptr;
         
@@ -415,7 +405,7 @@ private:
      * Returns a pointer to the node containing the element
      * If tree does not contain element or element is marked as deleted, returns nullptr
      */
-    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count) const{
+    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t, int &count) const {
         
         if (t == nullptr){
             return nullptr;
@@ -439,7 +429,7 @@ private:
         
     }
     
-    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t ) const{
+    LazyAvlNode* find ( const Comparable & x, LazyAvlNode * t ) const {
         
         if (t == nullptr){
             return nullptr;
@@ -466,8 +456,7 @@ private:
      * x is item to search for.
      * t is the node that roots the tree.
      */
-    bool contains( const Comparable & x, LazyAvlNode *t, int &count ) const
-    {
+    bool contains( const Comparable & x, LazyAvlNode *t, int &count ) const {
         if( t == nullptr )
             return false;
         else if( t->element > x ){
@@ -495,15 +484,14 @@ private:
     /**
      * Return the height of node t or -1 if nullptr.
      */
-    int height( LazyAvlNode *t ) const
-    {
+    int height( LazyAvlNode *t ) const {
         return t == nullptr ? -1 : t->height;
     }
     
     /**
      * Recursively counts number of nodes in tree
      */
-    int count_nodes ( LazyAvlNode *t ) const{
+    int countNodes ( LazyAvlNode *t ) const {
         if (t == nullptr) {
             return 0;
         }
@@ -511,27 +499,26 @@ private:
             return 1;
         }
         else {
-            return 1 + count_nodes(t->left) + count_nodes(t->right);
+            return 1 + countNodes(t->left) + countNodes(t->right);
         }
     }
 
     /**
      * Returns sum of the depth of all nodes in tree rooted at t
      */
-    int total_depth( LazyAvlNode *t, int& totald) {
+    int totalDepth( LazyAvlNode *t, int& totald) {
         
         if (t == nullptr) {
             return totald-1;
         }
         else {
             totald++;
-            return total_depth(t->left, totald) + total_depth(t->right, totald);
+            return totalDepth(t->left, totald) + totalDepth(t->right, totald);
         }
         
     }
     
-    int max( int lhs, int rhs ) const
-    {
+    int max( int lhs, int rhs ) const {
         return lhs > rhs ? lhs : rhs;
     }
     
@@ -543,8 +530,7 @@ private:
     /**
      * Internal method to print a subtree rooted at t in sorted order.
      */
-    void printTree( LazyAvlNode *t ) const
-    {
+    void printTree( LazyAvlNode *t ) const {
         // Print to console if tree node is not null and is not marked as deleted
         if( t != nullptr && !t->isDeleted)
         {
@@ -562,8 +548,7 @@ private:
     /**
      * Internal method to make subtree empty.
      */
-    void makeEmpty( LazyAvlNode * & t )
-    {
+    void makeEmpty( LazyAvlNode * & t ) {
         if( t != nullptr )
         {
             makeEmpty( t->left );
@@ -576,8 +561,7 @@ private:
     /**
      * Internal method to clone subtree.
      */
-    LazyAvlNode * clone( LazyAvlNode *t ) const
-    {
+    LazyAvlNode * clone( LazyAvlNode *t ) const {
         if( t == nullptr )
             return nullptr;
         else
@@ -594,8 +578,7 @@ private:
     static const int ALLOWED_IMBALANCE = 1;
     
     // Assume t is balanced or within one of being balanced
-    void balance( LazyAvlNode * & t )
-    {
+    void balance( LazyAvlNode * & t ) {
         if( t == nullptr )
             return;
         
@@ -623,8 +606,7 @@ private:
      * For AVL trees, this is a single rotation for case 1.
      * Update heights, then set new root.
      */
-    void rotateWithLeftChild( LazyAvlNode * & k2 )
-    {
+    void rotateWithLeftChild( LazyAvlNode * & k2 ) {
         LazyAvlNode *k1 = k2->left;
         k2->left = k1->right;
         k1->right = k2;
@@ -638,8 +620,7 @@ private:
      * For AVL trees, this is a single rotation for case 4.
      * Update heights, then set new root.
      */
-    void rotateWithRightChild( LazyAvlNode * & k1 )
-    {
+    void rotateWithRightChild( LazyAvlNode * & k1 ) {
         LazyAvlNode *k2 = k1->right;
         k1->right = k2->left;
         k2->left = k1;
@@ -654,8 +635,7 @@ private:
      * For AVL trees, this is a double rotation for case 2.
      * Update heights, then set new root.
      */
-    void doubleWithLeftChild( LazyAvlNode * & k3 )
-    {
+    void doubleWithLeftChild( LazyAvlNode * & k3 ) {
         rotateWithRightChild( k3->left );
         rotateWithLeftChild( k3 );
     }
@@ -666,8 +646,7 @@ private:
      * For AVL trees, this is a double rotation for case 3.
      * Update heights, then set new root.
      */
-    void doubleWithRightChild( LazyAvlNode * & k1 )
-    {
+    void doubleWithRightChild( LazyAvlNode * & k1 ) {
         rotateWithLeftChild( k1->right );
         rotateWithRightChild( k1 );
     }

@@ -2,12 +2,12 @@
 /*****************************************************************************
  Title:             LazyAVLTree.h
  Author:            Anna Cristina Karingal
+ Description:       Template class for an AVL Tree data structure
+
  Created on:        February 21, 2015
- Description:       Template class for an AVL Tree
- 
  Last Modified:     March 8, 2015
  
- *****************************************************************************/
+ ****************************************************************************/
 
 
 #ifndef AVL_TREE_H
@@ -23,14 +23,22 @@ using namespace std;
 // CONSTRUCTION: zero parameter
 //
 // ******************PUBLIC OPERATIONS*********************
-// void insert( x )       --> Insert x
-// void remove( x )       --> Remove x (unimplemented)
-// bool contains( x )     --> Return true if x is present
-// Comparable findMin( )  --> Return smallest item
-// Comparable findMax( )  --> Return largest item
-// boolean isEmpty( )     --> Return true if empty; else false
-// void makeEmpty( )      --> Remove all items
-// void printTree( )      --> Print tree in sorted order
+// void insert( x, count )     --> Insert x. Adds to count the number of
+//                                 recursive calls made.
+// void remove( x, count )     --> Removes x. Adds to count the number of
+//                                 recursive calls made.
+// bool contains( x, count )   --> Return true if x is present; else false.
+//                                 Adds to count the number of recursive calls
+//                                 made.
+// Comparable findMin( )       --> Return smallest item
+// Comparable findMax( )       --> Return largest item
+// boolean isEmpty( )          --> Return true if empty; else false
+// void makeEmpty( )           --> Remove all items
+// void printTree( )           --> Print tree in sorted order
+// void printNode(x)           --> Prints element in node containing x
+// int nodes( )                --> Returns the number of nodes in the tree
+// int internalPathLength( )   --> Returns the sum of the depth of all nodes
+//                                 in the tree.
 // ******************ERRORS********************************
 // Throws UnderflowException as warranted
 
@@ -43,29 +51,24 @@ public:
 /******************************************************************************
      PUBLIC CONSTRUCTORS, DESTRUCTORS, MOVERS
 ******************************************************************************/
-    AvlTree( ) : root{ nullptr }
-    { }
+    AvlTree( ) : root{ nullptr } { }
     
-    AvlTree( const AvlTree & rhs ) : root{ nullptr }
-    {
+    AvlTree( const AvlTree & rhs ) : root{ nullptr } {
         root = clone( rhs.root );
     }
     
-    AvlTree( AvlTree && rhs ) : root{ rhs.root }
-    {
+    AvlTree( AvlTree && rhs ) : root{ rhs.root } {
         rhs.root = nullptr;
     }
     
-    ~AvlTree( )
-    {
+    ~AvlTree( ) {
         makeEmpty( );
     }
     
     /**
      * Deep copy.
      */
-    AvlTree & operator=( const AvlTree & rhs )
-    {
+    AvlTree & operator=( const AvlTree & rhs ) {
         AvlTree copy = rhs;
         std::swap( *this, copy );
         return *this;
@@ -74,8 +77,7 @@ public:
     /**
      * Move.
      */
-    AvlTree & operator=( AvlTree && rhs )
-    {
+    AvlTree & operator=( AvlTree && rhs ) {
         std::swap( root, rhs.root );
         
         return *this;
@@ -90,8 +92,7 @@ public:
      * Find the smallest item in the tree.
      * Throw UnderflowException if empty.
      */
-    const Comparable & findMin( ) const
-    {
+    const Comparable & findMin( ) const {
         if( isEmpty( ) )
             throw UnderflowException{ };
         return findMin( root )->element;
@@ -101,8 +102,7 @@ public:
      * Find the largest item in the tree.
      * Throw UnderflowException if empty.
      */
-    const Comparable & findMax( ) const
-    {
+    const Comparable & findMax( ) const {
         if( isEmpty( ) )
             throw UnderflowException{ };
         return findMax( root )->element;
@@ -111,19 +111,17 @@ public:
     /**
      * Returns true if x is found in the tree.
      */
-    bool contains( const Comparable & x, int& count) const
-    {
+    bool contains( const Comparable & x, int& count) const {
         return contains( x, root, count );
     }
     
-    
-/******************************************************************************
+/*****************************************************************************
      PUBLIC PRINT FUNCTIONS
-******************************************************************************/
+*****************************************************************************/
     /**
      * Prints contents of the node containing element x
      */
-    void print_node (const Comparable & x ) const{
+    void printNode (const Comparable & x ) const {
         AvlNode* found = find (x, root);
         if (found == nullptr) {
             cout << "Element not found in tree." << endl;
@@ -136,8 +134,7 @@ public:
     /**
      * Print the tree contents in sorted order.
      */
-    void printTree( ) const
-    {
+    void printTree( ) const {
         if( isEmpty( ) )
             cout << "Empty tree" << endl;
         else
@@ -145,39 +142,35 @@ public:
     }
     
     
-/******************************************************************************
+/*****************************************************************************
      PUBLIC INSERT/REMOVE FUNCTIONS
- ******************************************************************************/
+*****************************************************************************/
     
     /**
      * Make the tree logically empty.
      */
-    void makeEmpty( )
-    {
+    void makeEmpty( ) {
         makeEmpty( root );
     }
     
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( const Comparable & x, int &count )
-    {
+    void insert( const Comparable & x, int &count ) {
         insert( x, root, count );
     }
     
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( Comparable && x, int &count )
-    {
+    void insert( Comparable && x, int &count ) {
         insert( std::move( x ), root, count );
     }
     
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
-    bool remove( const Comparable & x, int& count )
-    {
+    bool remove( const Comparable & x, int& count ) {
         return remove( x, root, count );
     }
     
@@ -190,16 +183,15 @@ public:
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
      */
-    bool isEmpty( ) const
-    {
+    bool isEmpty( ) const {
         return root == nullptr;
     }
     
     /**
      * Returns number of nodes in the tree
      */
-    int num_of_nodes () {
-        return count_nodes(root);
+    int nodes () {
+        return countNodes(root);
     }
     
     
@@ -207,19 +199,18 @@ public:
      * Returns internal path length, i.e. sum of depth of all nodes in 
      * tree
      */
-    int internal_path_length() {
+    int internalPathLength() {
         int start = 0;
-        return total_depth(root, start);
+        return totalDepth(root, start);
     }
     
     
 private:
     
-/******************************************************************************
+/*****************************************************************************
      Member Data
-******************************************************************************/
-    struct AvlNode
-    {
+*****************************************************************************/
+    struct AvlNode {
         Comparable element;
         AvlNode   *left;
         AvlNode   *right;
@@ -235,9 +226,9 @@ private:
     AvlNode *root;
     
 
-/******************************************************************************
+/*****************************************************************************
      Insert Functions
-******************************************************************************/
+*****************************************************************************/
     
     /**
      * Internal method to insert into a subtree.
@@ -245,15 +236,15 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( const Comparable & x, AvlNode * & t, int &count )
-    {
-        if( t == nullptr )
+    void insert( const Comparable & x, AvlNode * & t, int &count ) {
+        if ( t == nullptr ){
             t = new AvlNode{ x, nullptr, nullptr };
-        else if( t->element > x ){
+        }
+        else if ( t->element > x ){
             count ++;
             insert( x, t->left, count);
         }
-        else if( t->element < x ){
+        else if ( t->element < x ) {
             count ++;
             insert( x, t->right, count);
         }
@@ -272,8 +263,9 @@ private:
      */
     void insert( Comparable && x, AvlNode * & t, int &count)
     {
-        if( t == nullptr )
+        if( t == nullptr ){
             t = new AvlNode{ std::move( x ), nullptr, nullptr };
+        }
         else if( x < t->element ){
             count ++;
             insert( std::move( x ), t->left, count );
@@ -289,9 +281,9 @@ private:
         balance( t );
     }
 
-/******************************************************************************
+/*****************************************************************************
     Remove Functions
-******************************************************************************/
+*****************************************************************************/
     
     /**
      * Internal method to remove from a subtree.
@@ -299,8 +291,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    bool remove( const Comparable & x, AvlNode * &t, int &count)
-    {
+    bool remove( const Comparable & x, AvlNode * &t, int &count) {
         if( t == nullptr ){
             return false;   // Item not found; do nothing
         }
@@ -312,15 +303,13 @@ private:
             count++;
             return remove( x, t->right, count );
         }
-        else if( t->left != nullptr && t->right != nullptr ) // Two children
-        {
+        else if( t->left != nullptr && t->right != nullptr ) { //Two children
             count ++;
             t->element = findMin( t->right, count)->element;
             count ++;
             return remove( t->element, t->right, count );
         }
-        else
-        {
+        else {
             AvlNode *oldNode = t;
             t = ( t->left != nullptr ) ? t->left : t->right;
             delete oldNode;
@@ -330,16 +319,15 @@ private:
         return true;
     }
     
-/******************************************************************************
+/*****************************************************************************
      Find Functions
-******************************************************************************/
+*****************************************************************************/
      /**
      * Internal methods to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
     
-    AvlNode * findMin( AvlNode *t ) const
-    {
+    AvlNode * findMin( AvlNode *t ) const {
         if( t == nullptr )
             return nullptr;
         if( t->left == nullptr )
@@ -347,8 +335,7 @@ private:
         return findMin( t->left );
     }
     
-    AvlNode * findMin( AvlNode *t, int &count ) const
-    {
+    AvlNode * findMin( AvlNode *t, int &count ) const {
         if( t == nullptr )
             return nullptr;
         if( t->left == nullptr )
@@ -362,8 +349,7 @@ private:
      * Internal method to find the largest item in a subtree t.
      * Return node containing the largest item.
      */
-    AvlNode * findMax( AvlNode *t ) const
-    {
+    AvlNode * findMax( AvlNode *t ) const {
         if( t != nullptr )
             while( t->right != nullptr )
                 t = t->right;
@@ -375,8 +361,7 @@ private:
      * x is item to search for.
      * t is the node that roots the tree.
      */
-    AvlNode * find ( const Comparable & x, AvlNode *t ) const
-    {
+    AvlNode * find ( const Comparable & x, AvlNode *t ) const {
         if( t == nullptr )
             return nullptr;
         else if( t->element > x ){
@@ -394,8 +379,7 @@ private:
      * x is item to search for.
      * t is the node that roots the tree.
      */
-    bool contains( const Comparable & x, AvlNode *t, int &count ) const
-    {
+    bool contains( const Comparable & x, AvlNode *t, int &count ) const {
         if( t == nullptr )
             return false;
         else if( t->element > x ){
@@ -433,16 +417,14 @@ private:
     /**
      * Return the height of node t or -1 if nullptr.
      */
-    int height( AvlNode *t ) const
-    {
+    int height( AvlNode *t ) const {
         return t == nullptr ? -1 : t->height;
     }
-    
     
     /**
      * Recursively counts number of nodes in tree
      */
-    int count_nodes ( AvlNode *t ) const{
+    int countNodes ( AvlNode *t ) const {
         if (t == nullptr) {
             return 0;
         }
@@ -450,7 +432,7 @@ private:
             return 1;
         }
         else {
-            return 1 + count_nodes(t->left) + count_nodes(t->right);
+            return 1 + countNodes(t->left) + countNodes(t->right);
         }
     }
     
@@ -458,20 +440,19 @@ private:
     /**
      * Returns sum of the depth of all nodes in tree rooted at t
      */
-    int total_depth( AvlNode *t, int& totald) {
+    int totalDepth( AvlNode *t, int& totald) {
         
         if (t == nullptr) {
             return totald-1;
         }
         else {
             totald++;
-            return total_depth(t->left, totald) + total_depth(t->right, totald);
+            return totalDepth(t->left, totald) + totalDepth(t->right, totald);
         }
         
     }
     
-    int max( int lhs, int rhs ) const
-    {
+    int max( int lhs, int rhs ) const {
         return lhs > rhs ? lhs : rhs;
     }
     
@@ -482,8 +463,7 @@ private:
     /**
      * Internal method to print a subtree rooted at t in sorted order.
      */
-    void printTree( AvlNode *t ) const
-    {
+    void printTree( AvlNode *t ) const {
         if( t != nullptr )
         {
             printTree( t->left );
@@ -499,8 +479,7 @@ private:
     /**
      * Internal method to make subtree empty.
      */
-    void makeEmpty( AvlNode * & t )
-    {
+    void makeEmpty( AvlNode * & t ) {
         if( t != nullptr )
         {
             makeEmpty( t->left );
@@ -513,8 +492,7 @@ private:
     /**
      * Internal method to clone subtree.
      */
-    AvlNode * clone( AvlNode *t ) const
-    {
+    AvlNode * clone( AvlNode *t ) const {
         if( t == nullptr )
             return nullptr;
         else
@@ -530,8 +508,7 @@ private:
     static const int ALLOWED_IMBALANCE = 1;
     
     // Assume t is balanced or within one of being balanced
-    void balance( AvlNode * & t )
-    {
+    void balance( AvlNode * & t ) {
         if( t == nullptr )
             return;
         
@@ -558,8 +535,7 @@ private:
      * For AVL trees, this is a single rotation for case 1.
      * Update heights, then set new root.
      */
-    void rotateWithLeftChild( AvlNode * & k2 )
-    {
+    void rotateWithLeftChild( AvlNode * & k2 ) {
         AvlNode *k1 = k2->left;
         k2->left = k1->right;
         k1->right = k2;
@@ -573,8 +549,7 @@ private:
      * For AVL trees, this is a single rotation for case 4.
      * Update heights, then set new root.
      */
-    void rotateWithRightChild( AvlNode * & k1 )
-    {
+    void rotateWithRightChild( AvlNode * & k1 ) {
         AvlNode *k2 = k1->right;
         k1->right = k2->left;
         k2->left = k1;
@@ -589,8 +564,7 @@ private:
      * For AVL trees, this is a double rotation for case 2.
      * Update heights, then set new root.
      */
-    void doubleWithLeftChild( AvlNode * & k3 )
-    {
+    void doubleWithLeftChild( AvlNode * & k3 ) {
         rotateWithRightChild( k3->left );
         rotateWithLeftChild( k3 );
     }
@@ -601,8 +575,7 @@ private:
      * For AVL trees, this is a double rotation for case 3.
      * Update heights, then set new root.
      */
-    void doubleWithRightChild( AvlNode * & k1 )
-    {
+    void doubleWithRightChild( AvlNode * & k1 ) {
         rotateWithLeftChild( k1->right );
         rotateWithRightChild( k1 );
     }

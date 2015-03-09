@@ -10,14 +10,22 @@ using namespace std;
 // CONSTRUCTION: zero parameter
 //
 // ******************PUBLIC OPERATIONS*********************
-// void insert( x )       --> Insert x
-// void remove( x )       --> Remove x
-// bool contains( x )     --> Return true if x is present
-// Comparable findMin( )  --> Return smallest item
-// Comparable findMax( )  --> Return largest item
-// boolean isEmpty( )     --> Return true if empty; else false
-// void makeEmpty( )      --> Remove all items
-// void printTree( )      --> Print tree in sorted order
+// void insert( x, count )     --> Insert x. Adds to count the number of
+//                                 recursive calls made.
+// void remove( x, count )     --> Removes x. Adds to count the number of
+//                                 recursive calls made.
+// bool contains( x, count )   --> Return true if x is present; else false.
+//                                 Adds to count the number of recursive calls
+//                                 made.
+// Comparable findMin( )       --> Return smallest item
+// Comparable findMax( )       --> Return largest item
+// boolean isEmpty( )          --> Return true if empty; else false
+// void makeEmpty( )           --> Remove all items
+// void printTree( )           --> Print tree in sorted order
+// void printNode(x)           --> Prints element in node containing x
+// int nodes( )                --> Returns the number of nodes in the tree
+// int internalPathLength( )   --> Returns the sum of the depth of all nodes
+//                                 in the tree.
 // ******************ERRORS********************************
 // Throws UnderflowException as warranted
 
@@ -29,39 +37,33 @@ public:
 /******************************************************************************
      PUBLIC CONSTRUCTORS, DESTRUCTORS, MOVERS
 ******************************************************************************/
-    BinarySearchTree( ) : root{ nullptr }
-    {
-    }
+    BinarySearchTree( ) : root{ nullptr } { }
     
     /**
      * Copy constructor
      */
-    BinarySearchTree( const BinarySearchTree & rhs ) : root{ nullptr }
-    {
+    BinarySearchTree( const BinarySearchTree & rhs ) : root{ nullptr } {
         root = clone( rhs.root );
     }
     
     /**
      * Move constructor
      */
-    BinarySearchTree( BinarySearchTree && rhs ) : root{ rhs.root }
-    {
+    BinarySearchTree( BinarySearchTree && rhs ) : root{ rhs.root } {
         rhs.root = nullptr;
     }
     
     /**
      * Destructor for the tree
      */
-    ~BinarySearchTree( )
-    {
+    ~BinarySearchTree( ) {
         makeEmpty( );
     }
     
     /**
      * Copy assignment
      */
-    BinarySearchTree & operator=( const BinarySearchTree & rhs )
-    {
+    BinarySearchTree & operator=( const BinarySearchTree & rhs ) {
         BinarySearchTree copy = rhs;
         std::swap( *this, copy );
         return *this;
@@ -70,8 +72,7 @@ public:
     /**
      * Move assignment
      */
-    BinarySearchTree & operator=( BinarySearchTree && rhs )
-    {
+    BinarySearchTree & operator=( BinarySearchTree && rhs ) {
         std::swap( root, rhs.root );
         return *this;
     }
@@ -84,8 +85,7 @@ public:
      * Find the smallest item in the tree.
      * Throw UnderflowException if empty.
      */
-    const Comparable & findMin( ) const
-    {
+    const Comparable & findMin( ) const {
         if( isEmpty( ) )
             throw UnderflowException{ };
         return findMin( root )->element;
@@ -95,8 +95,7 @@ public:
      * Find the largest item in the tree.
      * Throw UnderflowException if empty.
      */
-    const Comparable & findMax( ) const
-    {
+    const Comparable & findMax( ) const {
         if( isEmpty( ) )
             throw UnderflowException{ };
         return findMax( root )->element;
@@ -106,8 +105,7 @@ public:
     /**
      * Returns true if x is found in the tree.
      */
-    bool contains( const Comparable & x, int& count) const
-    {
+    bool contains( const Comparable & x, int& count) const {
         return contains( x, root, count );
     }
     
@@ -120,7 +118,7 @@ public:
     /**
      * Prints contents of the node containing element x
      */
-    void print_node (const Comparable & x ) const{
+    void printNode (const Comparable & x ) const {
         BinaryNode* found = find (x, root);
         if (found == nullptr) {
             cout << "Element not found in tree." << endl;
@@ -133,8 +131,7 @@ public:
     /**
      * Print the tree contents in sorted order.
      */
-    void printTree( ostream & out = cout ) const
-    {
+    void printTree( ostream & out = cout ) const {
         if( isEmpty( ) )
             out << "Empty tree" << endl;
         else
@@ -148,34 +145,28 @@ public:
     /**
      * Make the tree logically empty.
      */
-    void makeEmpty( )
-    {
+    void makeEmpty( ) {
         makeEmpty( root );
     }
     
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert( const Comparable & x, int &count )
-    {
+    void insert( const Comparable & x, int &count ) {
         insert(x, root, count);
-        
     }
     
     /**
      * Insert x into the tree; duplicates are ignored.
      */
-    void insert ( Comparable &x, int &count )
-    {
+    void insert ( Comparable &x, int &count ) {
         insert( std::move( x ), root, count);
-        
     }
     
     /**
      * Remove x from the tree. Nothing is done if x is not found.
      */
-    bool remove( const Comparable & x, int& count )
-    {
+    bool remove( const Comparable & x, int& count ) {
         return remove( x, root, count );
     }
 
@@ -187,16 +178,15 @@ public:
     /**
      * Returns number of nodes in the tree
      */
-    int num_of_nodes () {
-        return count_nodes(root);
+    int nodes ( ) {
+        return countNodes(root);
     }
     
     /**
      * Test if the tree is logically empty.
      * Return true if empty, false otherwise.
      */
-    bool isEmpty( ) const
-    {
+    bool isEmpty( ) const {
         return root == nullptr;
     }
     
@@ -205,9 +195,9 @@ public:
      * Returns internal path length, i.e. sum of depth of all nodes in
      * tree
      */
-    int internal_path_length() {
+    int internalPathLength() {
         int start = 0;
-        return total_depth(root, start);
+        return totalDepth(root, start);
     }
 
     
@@ -242,8 +232,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( const Comparable & x, BinaryNode * & t, int &count)
-    {
+    void insert( const Comparable & x, BinaryNode * & t, int &count) {
         if( t == nullptr ){
             t = new BinaryNode{ x, nullptr, nullptr };
         }
@@ -266,8 +255,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-    void insert( Comparable && x, BinaryNode * & t, int &count)
-    {
+    void insert( Comparable && x, BinaryNode * & t, int &count) {
         if( t == nullptr ){
             t = new BinaryNode{ std::move( x ), nullptr, nullptr };
         }
@@ -294,8 +282,7 @@ private:
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */
-     bool remove( const Comparable & x, BinaryNode * & t, int & count)
-    {
+     bool remove( const Comparable & x, BinaryNode * & t, int & count) {
         if( t == nullptr )
             return false; // Item not found; return false
         if( t->element > x ){
@@ -331,8 +318,7 @@ private:
      * Internal method to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
-    BinaryNode * findMin( BinaryNode *t) const
-    {
+    BinaryNode * findMin( BinaryNode *t) const {
         if( t == nullptr )
             return nullptr;
         if( t->left == nullptr )
@@ -341,8 +327,7 @@ private:
     }
     
     
-    BinaryNode * findMin( BinaryNode *t, int &count ) const
-    {
+    BinaryNode * findMin( BinaryNode *t, int &count ) const {
         if( t == nullptr )
             return nullptr;
         if( t->left == nullptr )
@@ -355,16 +340,14 @@ private:
      * Internal method to find the largest item in a subtree t.
      * Return node containing the largest item.
      */
-    BinaryNode * findMax( BinaryNode *t ) const
-    {
+    BinaryNode * findMax( BinaryNode *t ) const {
         if( t != nullptr )
             while( t->right != nullptr )
                 t = t->right;
         return t;
     }
     
-    BinaryNode* find (const Comparable & x, BinaryNode *t) const
-    {
+    BinaryNode* find( const Comparable & x, BinaryNode *t ) const {
         
         if( t == nullptr ) // Item not found
             return nullptr;
@@ -383,8 +366,7 @@ private:
      * x is item to search for.
      * t is the node that roots the subtree.
      */
-    bool contains( const Comparable & x, BinaryNode *t, int &count ) const
-    {
+    bool contains( const Comparable & x, BinaryNode *t, int &count ) const {
         if( t == nullptr )
             return false;
         else if( t->element > x ){
@@ -422,7 +404,7 @@ private:
     /**
      * Recursively counts number of nodes in tree
      */
-    int count_nodes ( BinaryNode *t ) const{
+    int countNodes ( BinaryNode *t ) const {
         if (t == nullptr) {
             return 0;
         }
@@ -430,7 +412,7 @@ private:
             return 1;
         }
         else {
-            return 1 + count_nodes(t->left) + count_nodes(t->right);
+            return 1 + countNodes(t->left) + countNodes(t->right);
         }
     }
     
@@ -439,14 +421,14 @@ private:
      * Returns sum of the depth of all nodes in tree rooted at t
      */
     
-    int total_depth( BinaryNode *t, int& totald) {
+    int totalDepth( BinaryNode *t, int& totald) {
         
         if (t == nullptr) {
             return totald-1;
         }
         else {
             totald++;
-            return total_depth(t->left, totald) + total_depth(t->right, totald);
+            return totalDepth(t->left, totald) + totalDepth(t->right, totald);
         }
         
     }
@@ -459,8 +441,7 @@ private:
     /**
      * Internal method to print a subtree rooted at t in sorted order.
      */
-    void printTree( BinaryNode *t, ostream & out ) const
-    {
+    void printTree( BinaryNode *t, ostream & out ) const {
         if( t != nullptr )
         {
             printTree( t->left, out );
@@ -477,8 +458,7 @@ private:
     /**
      * Internal method to make subtree empty.
      */
-    void makeEmpty( BinaryNode * & t )
-    {
+    void makeEmpty( BinaryNode * & t ) {
         if( t != nullptr )
         {
             makeEmpty( t->left );
@@ -491,8 +471,7 @@ private:
     /**
      * Internal method to clone subtree.
      */
-    BinaryNode * clone( BinaryNode *t ) const
-    {
+    BinaryNode * clone( BinaryNode *t ) const {
         if( t == nullptr )
             return nullptr;
         else

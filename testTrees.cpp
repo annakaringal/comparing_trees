@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -47,7 +45,7 @@ int main(int argc, const char * argv[]) {
                 // Create tree from file and run test routine
                 
                 if (tree_type == "bst") {
-                    BinarySearchTree<SequenceMap> bst_tree = parse_tree<BinarySearchTree<SequenceMap>>(parsef, insert_count);
+                    BinarySearchTree<SequenceMap> bst_tree = parseTree<BinarySearchTree<SequenceMap>>(parsef, insert_count);
                     cout << "\nBinary Search Tree Created..." << endl;
                     
                     cout << "===============================" << endl;
@@ -56,11 +54,11 @@ int main(int argc, const char * argv[]) {
                     
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
                     
-                    run_test_routine(bst_tree, seq_query_file);
+                    runTestRoutine(bst_tree, seq_query_file);
                     
                 }
                 else if (tree_type == "avl"){
-                    AvlTree<SequenceMap> avl_tree = parse_tree<AvlTree<SequenceMap>>(parsef, insert_count);
+                    AvlTree<SequenceMap> avl_tree = parseTree<AvlTree<SequenceMap>>(parsef, insert_count);
                     cout << "\nAVL Tree Created..." << endl;
                     
                     cout << "===============================" << endl;
@@ -69,11 +67,11 @@ int main(int argc, const char * argv[]) {
                     
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
 
-                    run_test_routine(avl_tree, seq_query_file);
+                    runTestRoutine(avl_tree, seq_query_file);
 
                 }
                 else if (tree_type == "lazyavl") {
-                    LazyAvlTree<SequenceMap> lazy_tree = parse_tree<LazyAvlTree<SequenceMap>>(parsef, insert_count);
+                    LazyAvlTree<SequenceMap> lazy_tree = parseTree<LazyAvlTree<SequenceMap>>(parsef, insert_count);
                     cout << "\nAVL Tree with Lazy Deletion Created..." << endl;
                     
                     cout << "===============================" << endl;
@@ -82,7 +80,7 @@ int main(int argc, const char * argv[]) {
                     
                     cout << "Total number of recursive calls to insert: " << insert_count << endl;
 
-                    run_test_routine(lazy_tree, seq_query_file);
+                    runTestRoutine(lazy_tree, seq_query_file);
 
                 }
 

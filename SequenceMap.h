@@ -26,15 +26,12 @@ public:
     
     SequenceMap(string seq, string acronym="");
     
-    string get_sequence() const;
-    set<string> get_acronyms() const;
-    
     // In case of duplicates: adds other SequenceMap's enzyme acronym to enzyme acronyms
     void merge(SequenceMap &other);
     void merge(const SequenceMap &other);
     
     // Removes all acronyms existing from enyme_acronyms and creates an empty set
-    void clear_acronyms ();
+    void clearAcronyms ();
     
     // Comparison operators
     bool operator< (const SequenceMap &right);

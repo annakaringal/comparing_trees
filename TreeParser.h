@@ -28,7 +28,7 @@ using namespace std;
  */
 
 template <typename TreeType>
-TreeType parse_tree(istream &readf, int &count) {
+TreeType parseTree(istream &readf, int &count) {
     
     TreeType tree;
     string line;
@@ -72,7 +72,7 @@ TreeType parse_tree(istream &readf, int &count) {
  */
 
 template <typename TreeType>
-TreeType parse_tree(istream &readf) {
+TreeType parseTree(istream &readf) {
     
     TreeType tree;
     string line;
@@ -119,7 +119,7 @@ TreeType parse_tree(istream &readf) {
  * Pre-condition: TreeType &tree is an initialized, non-empty tree of SequenceMaps
  */
 template <typename TreeType>
-void print_seqmap(TreeType &tree){
+void printSequenceMap(TreeType &tree){
     
     string query;
     bool cont = true;
@@ -133,7 +133,7 @@ void print_seqmap(TreeType &tree){
         }
         else {
             SequenceMap seqmap_query(query, "");
-            tree.print_node(seqmap_query);
+            tree.printNode(seqmap_query);
         }
     }
     
