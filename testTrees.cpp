@@ -1,3 +1,31 @@
+/*****************************************************************************
+ Title:             testTrees.cpp
+ Author:            Anna Cristina Karingal
+ Created on:        February 21, 2015
+ Description:       1. Parses a given file of enzymes and the recognition
+                    sequences they act on. Creates a tree of a given type
+                    that contains the recognition sequences and the enzymes
+                    that act on them.
+                    2. Runs a series of tests on the tree: 
+                        - Displays the number of calls to insert() made when
+                            parsing the tree
+                        - Displays the number of nodes (n) in the tree
+                        - Displays the average depth of all nodes in the tree
+                        - Displays ratio of average depth to log base 2 of n
+                    3. Searches the tree for sequences listed in a given query
+                    file and prints the number of sequences found and the 
+                    number of recursive calls to contains() made by searching
+                    the tree.
+                    4. Removes every other sequence in in the query file from
+                    the tree and prints the number of sequences removed and
+                    the number of recursive calls made to remove.
+                    5. Runs tests in 2. and 3. again on the diminished tree.
+ 
+ Last Modified:     March 8, 2015
+ 
+*****************************************************************************/
+
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -28,6 +56,7 @@ int main(int argc, const char * argv[]) {
         // For case insensitive argument comparison
         transform(tree_type.begin(), tree_type.end(), tree_type.begin(), ::tolower);
         
+        // Open file
         ifstream parsef;
         parsef.open(file_to_parse.c_str());
         
@@ -95,6 +124,7 @@ int main(int argc, const char * argv[]) {
             }
         }
         
+        // Close file
         parsef.close();
         
     }

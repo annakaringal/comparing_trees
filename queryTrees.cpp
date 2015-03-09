@@ -1,4 +1,19 @@
 
+/*****************************************************************************
+ Title:             queryTrees.cpp
+ Author:            Anna Cristina Karingal
+ Created on:        February 21, 2015
+ Description:       Parses a given file of enzymes and the recognition
+                    sequences they act on. Creates a tree of a given type
+                    that contains the recognition sequences and the enzymes
+                    that act on them.
+                    Prompts the user for input. User inputs a recognition 
+                    sequence and the program will output a list of the enzymes
+                    that act on the query sequnce.
+ 
+ Last Modified:     March 8, 2015
+ 
+*****************************************************************************/
 
 #include <iostream>
 #include <fstream>
@@ -28,6 +43,7 @@ int main(int argc, const char * argv[]) {
         // For case insensitive argument comparison
         transform(tree_type.begin(), tree_type.end(), tree_type.begin(), ::tolower);
         
+        // Open file
         ifstream readf;
         readf.open(file_name.c_str());
         
@@ -41,7 +57,7 @@ int main(int argc, const char * argv[]) {
             try {
                 
                 // Generate trees based on command line argument
-                // Prompt user for recognition sequence queries and print
+                // Prompts user for recognition sequence queries and prints
                 // enzyme acronyms for valid sequences
                 if (tree_type == "bst") {
                     BinarySearchTree<SequenceMap> bst_tree = parseTree<BinarySearchTree<SequenceMap>>(readf);
@@ -60,8 +76,8 @@ int main(int argc, const char * argv[]) {
                 }
                 
             }
-            catch (exception e) {
-                cerr << "ERROR:" << e.what() << endl;
+            catch (invalid_argument invalid_tree_type) {
+                cerr << "ERROR: Invalid tree type specified - " << invalid_tree_type.what() << endl;
                 exit(-1);
             }
         }

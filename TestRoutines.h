@@ -1,3 +1,34 @@
+/*****************************************************************************
+ Title:             testTrees.cpp
+ Author:            Anna Cristina Karingal
+ Created on:        February 21, 2015
+ Description:       A set of templated functions that run a series of tests on
+                    a tree of a given type TreeType
+
+                    getTreeCharacteristics(tree): 
+                        - Displays the number of nodes (n) in tree
+                        - Displays the average depth of all nodes in tree
+                        - Displays ratio of average depth to log base 2 of n
+
+                    searchFromFile (filename, tree) : 
+                    Searches the tree for sequences listed in filename and
+                    prints the number of sequences found and the number of
+                    recursive calls made to contains().
+
+                    removeAlternateSequences (filename, tree):
+                    Removes every other sequence in in filename from tree and
+                    prints the number of sequences removed and the number of
+                    recursive calls made to remove().
+
+                    runTestRoutines(tree, filename: 
+                    Runs all the above tests.
+
+ 
+ Last Modified:     March 8, 2015
+ 
+*****************************************************************************/
+
+
 #ifndef TESTROUTINES_H
 #define TESTROUTINES_H
 
@@ -12,6 +43,11 @@
 
 using namespace std;
 
+/**
+* Runs the series of tests on the tree in order. Shows tree
+* characteristics before and after removing roughly half
+* the sequences in the search file.
+*/
 template <typename TreeType>
 void runTestRoutine(TreeType &tree, string filename){
     
@@ -41,6 +77,12 @@ void runTestRoutine(TreeType &tree, string filename){
     
 }
 
+/**
+* Calculates and prints: 
+*     number of nodes in the tree, n
+*     average depth of all nodes
+*     ratio of average depth to log(base 2) of n
+*/
 template <typename TreeType>
 void getTreeCharacteristics(TreeType &tree) {
     
@@ -70,6 +112,11 @@ void getTreeCharacteristics(TreeType &tree) {
     
 }
 
+/**
+* Searches tree for sequences in the given file. 
+* Counts and prints the number of sequences found in the tree
+* and the number of recursive calls made to contains()
+*/
 template <typename TreeType>
 void searchFromFile (string filename, TreeType &tree) {
     
@@ -99,6 +146,11 @@ void searchFromFile (string filename, TreeType &tree) {
     
 }
 
+/**
+* Removes every other sequence in a given file from the tree
+* Counts and prints the number of sequences removed
+* and the number of recursive calls made to remove()
+*/
 template <typename TreeType>
 void removeAlternateSequences(string filename, TreeType &tree) {
     

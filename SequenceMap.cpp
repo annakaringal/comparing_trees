@@ -5,10 +5,17 @@ SequenceMap::SequenceMap(string seq, string acronym):sequence(seq) {
     enzyme_acronyms.insert(acronym);
 }
 
+/**
+* Remove all enzyme acronyms from sequence map
+*/
 void SequenceMap::clearAcronyms(){
     enzyme_acronyms.clear();
 }
 
+/**
+* If two sequence maps contain the same sequence, merge by 
+* combining their two sets of enzyme acronyms
+*/
 void SequenceMap::merge(SequenceMap &other){
     
     // Check if sequences of both sequences are the same
@@ -37,6 +44,9 @@ void SequenceMap::merge(const SequenceMap &other){
     
 }
 
+/**
+* Compare two SequenceMaps using their recognition sequence strings
+*/
 bool SequenceMap::operator< (const SequenceMap &right){
     
     if (this->sequence < right.sequence) {
@@ -54,7 +64,9 @@ bool SequenceMap::operator> (const SequenceMap &right){
     return false;
 }
 
-
+/**
+* Print the list of enzyme acronyms for the sequence to the console
+*/
 ostream &operator << (ostream &os, const SequenceMap &sm){
     
     os << "ACRONYMS: " << endl;

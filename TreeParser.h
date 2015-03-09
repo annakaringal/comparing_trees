@@ -2,7 +2,19 @@
  Title:             TreeParser.h
  Author:            Anna Cristina Karingal
  Created on:        February 21, 2015
- Description:       
+ Description:       Contains template functions to create a tree of type 
+                    TreeType from file and query it.
+
+                    parseTree(filename): 
+                    Parses filename, a file containing a list of enzymes and
+                    the recognition sequences they act on. Creates a tree of
+                    type TreeType that contains the recognition sequences and
+                    the enzymes that act on them.
+
+                    printSequenceMap(tree):
+                    Prompts the user for a recognition sequence and searches
+                    the tree for that sequence. Prints enzymes that act on
+                    the sequence to the console.
  
  Last Modified:     March 8, 2015
  
@@ -23,10 +35,7 @@ using namespace std;
 /**
  * Parses file and returns a tree of type TreeType containing data in file
  * Counts number of times insert() function is recursively called on the tree
- * Pre-conditions: readf is an open, initialized file stream for a valid data
- * file.
  */
-
 template <typename TreeType>
 TreeType parseTree(istream &readf, int &count) {
     
@@ -53,6 +62,8 @@ TreeType parseTree(istream &readf, int &count) {
             while (getline(seqss, s, '/')){
                 if (!s.empty()){
                     SequenceMap smap(s, enzyme_acronym);
+
+                    // Insert into tree
                     tree.insert(smap, count);
                 }
             }
@@ -67,10 +78,7 @@ TreeType parseTree(istream &readf, int &count) {
 
 /**
  * Parses file and returns a tree of type TreeType containing data in file
- * Pre-conditions: readf is an open, initialized file stream for a valid data
- * file.
  */
-
 template <typename TreeType>
 TreeType parseTree(istream &readf) {
     
@@ -98,6 +106,7 @@ TreeType parseTree(istream &readf) {
             while (getline(seqss, s, '/')){
                 if (!s.empty()){
                     SequenceMap smap(s, enzyme_acronym);
+                    // Insert into tree
                     tree.insert(smap, count);
                 }
             }
@@ -110,13 +119,10 @@ TreeType parseTree(istream &readf) {
     return tree;
 }
 
-
-
 /**
  * Prompts user for recognition sequence, searches tree for given sequence
  * If sequence is found in tree, prints out a list of enzyme acronyms for that
  * sequence
- * Pre-condition: TreeType &tree is an initialized, non-empty tree of SequenceMaps
  */
 template <typename TreeType>
 void printSequenceMap(TreeType &tree){
