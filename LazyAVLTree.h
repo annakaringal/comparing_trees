@@ -332,13 +332,6 @@ private:
             count++;
             return remove( x, t->right, count );
         }
-        else if( t->left != nullptr && t->right != nullptr ) // Two children
-        {
-            count ++;
-            t->element = findMin( t->right, count)->element;
-            count ++;
-            return remove( t->element, t->right, count );
-        }
         else
         {
             if (!t->isDeleted) {
@@ -360,13 +353,14 @@ private:
      * Internal method to find the smallest item in a subtree t.
      * Return node containing the smallest item.
      */
-    LazyAvlNode * findMin( LazyAvlNode *t ) const
+    LazyAvlNode * findMin( LazyAvlNode *t, int &count ) const
     {
         if( t == nullptr )
             return nullptr;
         
         // Find min in left subtree while at node t
-        LazyAvlNode * Lmin = findMin( t->left);
+        count ++;
+        LazyAvlNode * Lmin = findMin( t->left, count );
         
         // Min found in left subtree
         if (Lmin != nullptr) {
@@ -380,7 +374,8 @@ private:
         
         // Current node is the minimum but is marked as deleted
         // Look in right subtree
-        return findMin( t->right );
+        count ++;
+        return findMin( t->right, count );
     }
     
     /**
@@ -488,7 +483,7 @@ private:
                 return true;
             }
             else {
-                return true;
+                return false;
             }
         }
     }
