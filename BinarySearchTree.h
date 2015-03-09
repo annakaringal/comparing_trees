@@ -1,6 +1,16 @@
 #ifndef BINARY_SEARCH_TREE_H
 #define BINARY_SEARCH_TREE_H
 
+/*****************************************************************************
+ Title:             BinarySearchTree.h
+ Author:            Anna Cristina Karingal
+ Description:       Template class for a Binary Search Tree data structure
+
+ Created on:        February 21, 2015
+ Last Modified:     March 8, 2015
+ 
+ ****************************************************************************/
+
 #include "dsexceptions.h"
 #include <algorithm>
 using namespace std;

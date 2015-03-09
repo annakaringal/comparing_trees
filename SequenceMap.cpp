@@ -1,6 +1,16 @@
 
 #include "SequenceMap.h"
 
+/*****************************************************************************
+ Title:             SequenceMap.cpp
+ Author:            Anna Cristina Karingal
+ Created on:        February 21, 2015
+ Description:       Implementation of SequenceMap class functions
+ 
+ Last Modified:     March 8, 2015
+ 
+ *****************************************************************************/
+
 SequenceMap::SequenceMap(string seq, string acronym):sequence(seq) {
     enzyme_acronyms.insert(acronym);
 }

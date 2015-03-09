@@ -1,17 +1,17 @@
+#ifndef LAZYAVL_TREE_H
+#define LAZYAVL_TREE_H
 
 /*****************************************************************************
  Title:             LazyAVLTree.h
  Author:            Anna Cristina Karingal
  Created on:        February 21, 2015
- Description:       Template class for an AVL Tree that supports lazy deletion
+ Description:       Template class for an AVL Tree data structure that
+                    supports lazy deletion
  
  Last Modified:     March 8, 2015
  
 *****************************************************************************/
 
-
-#ifndef LAZYAVL_TREE_H
-#define LAZYAVL_TREE_H
 
 #include "dsexceptions.h"
 #include <algorithm>

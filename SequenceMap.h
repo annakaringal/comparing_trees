@@ -2,9 +2,16 @@
  Title:             SequenceMap.h
  Author:            Anna Cristina Karingal
  Created on:        February 21, 2015
- Description:
+ Description:       Class for containing a recognition sequence and the set of
+                    enzymes that act on it.
+                    Functions to: 
+                        - compare two SequenceMaps by their sequence strings
+                        - merge two SequenceMaps that possess identical
+                          sequence strings
+                        - print the list of enzyme acronyms for a sequence to
+                          the console
  
- Last Modified:     March 5, 2015
+ Last Modified:     March 8, 2015
  
  *****************************************************************************/
 

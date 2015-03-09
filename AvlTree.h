@@ -1,6 +1,8 @@
+#ifndef AVL_TREE_H
+#define AVL_TREE_H
 
 /*****************************************************************************
- Title:             LazyAVLTree.h
+ Title:             AvlTree.h
  Author:            Anna Cristina Karingal
  Description:       Template class for an AVL Tree data structure
 
@@ -8,10 +10,6 @@
  Last Modified:     March 8, 2015
  
  ****************************************************************************/
-
-
-#ifndef AVL_TREE_H
-#define AVL_TREE_H
 
 #include "dsexceptions.h"
 #include <algorithm>
